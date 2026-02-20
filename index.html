@@ -353,6 +353,7 @@
         <a href="#security-audit" class="nav-link">Security Audit</a>
         <a href="#architect-review" class="nav-link">Architect Review</a>
         <a href="#engineering-review" class="nav-link">Engineering Review</a>
+        <a href="#rebalance-analysis" class="nav-link">Rebalance Analysis</a>
     
     </nav>
 
@@ -470,7 +471,103 @@
 </section>
 
 
-        
+<section id="rebalance-analysis" class="card report-section">
+    <h2 class="section-title">Reviewer Note: Do We Even Need the Rebalance Contract?</h2>
+    <div class="section-content">
+
+    <div style="background: #fff8f0; border-left: 4px solid #e67e22; padding: 16px 20px; margin: 16px 0; border-radius: 0 4px 4px 0;">
+        <strong>Cross-review observation:</strong> All three reviews flagged the Rebalance contract as a concentrated risk surface (Security H-02, Architect C3/C5, Engineering Devil's Advocate). This section explores whether the contract is architecturally necessary or whether alternatives exist.
+    </div>
+
+    <h3>Why It Exists</h3>
+    <p>The Rebalance contract exists because of a <strong>rollout sequencing problem</strong>, not a fundamental architectural necessity.</p>
+
+    <p>The design has two refund mechanisms:</p>
+    <ol>
+        <li><strong>PSC Refund Function</strong> (in the main contract) &mdash; multi-party signed (original payer + incentive provider must both sign). This is the "proper" refund mechanism with per-party authorization.</li>
+        <li><strong>Rebalance Contract</strong> (standalone) &mdash; attester-only, no external party signatures needed. General-purpose fund mover.</li>
+    </ol>
+
+    <p>The PSC Refund <strong>ships inactive</strong> at launch. The team wants to deploy the Pricing Engine without requiring OFIs to integrate with a new refund signing flow (which would disrupt existing OFI integrations). So for the initial rollout:</p>
+
+    <table>
+        <thead>
+            <tr><th>Mechanism</th><th>Status at Launch</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Forward flow (<code>execute</code>)</td><td><strong>Active</strong></td><td>OFIs already sign Permit2; minimal integration change</td></tr>
+            <tr><td>PSC Refund</td><td><strong>Inactive</strong></td><td>Would require OFIs to sign new <code>PayerRefundIntent</code> EIP-712 types</td></tr>
+            <tr><td>Rebalance</td><td><strong>Active</strong></td><td>CPN can process refunds unilaterally without OFI involvement</td></tr>
+        </tbody>
+    </table>
+
+    <p>The Rebalance contract handles these initial refund scenarios:</p>
+    <ul>
+        <li><strong>Fee/Arbitrage refund:</strong> Move BFI refund + CPN-held fees back to OFI</li>
+        <li><strong>Incentive clawback:</strong> Split refund between OFI and CPN Incentive Wallet</li>
+    </ul>
+
+    <h3>Why You Might Not Need It</h3>
+
+    <p>The Rebalance contract is essentially a <strong>CPN-only fund router</strong> that bypasses the multi-party consent model. Multiple reviewers flagged concerns:</p>
+
+    <table>
+        <thead>
+            <tr><th>Review</th><th>Finding</th><th>Concern</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Security Audit</td><td><span style="display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#fd7e14;color:#fff;">H-02</span></td><td>"Rebalance Contract Provides Attester-Only Arbitrary Fund Movement" &mdash; high-value target with no external party checks</td></tr>
+            <tr><td>Architect Review</td><td>C3, C5</td><td>Noted the trust model is fundamentally weaker; interleaved external calls without CEI separation</td></tr>
+            <tr><td>Engineering Review</td><td>Devil's Advocate</td><td>"Why separate Rebalance contract? More attack surface, not less" &mdash; a single contract with a different modifier would be simpler</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Alternatives to Consider</h3>
+
+    <table>
+        <thead>
+            <tr><th>#</th><th>Alternative</th><th>Pros</th><th>Cons</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><strong>Launch PSC Refund as active from day one</strong></td>
+                <td>Eliminates Rebalance contract entirely; strongest security posture with multi-party consent</td>
+                <td>Requires OFIs to integrate refund signing flow before launch; delays rollout</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><strong>Fold rebalance into the PSC as a function</strong></td>
+                <td>Same trust model, less deployment/audit surface; <code>onlyRebalancer</code> modifier instead of separate contract</td>
+                <td>Auditors see both trust models in one contract; slightly less audit clarity</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><strong>Skip onchain refunds entirely at launch</strong></td>
+                <td>No Rebalance contract needed; handle refunds as offchain settlements (direct wallet transfers by CPN ops); add onchain refund later</td>
+                <td>No onchain audit trail for refunds during initial period; manual operational burden</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><strong>Activate PSC Refund with optional incentive provider signature</strong></td>
+                <td>OFI still signs their refund amount (stronger than Rebalance); mirrors the optional-BFI-signature pattern from forward flow</td>
+                <td>Still weaker than full multi-party consent; adds another optional-signature surface</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Bottom Line</h3>
+
+    <div style="background: #f0f7ff; border-left: 4px solid #3498db; padding: 16px 20px; margin: 16px 0; border-radius: 0 4px 4px 0;">
+        The Rebalance contract is a <strong>bridge solution</strong> to avoid blocking the Pricing Engine launch on OFI refund integration. The cost is a powerful attester-only fund router with minimal onchain constraints. Whether that tradeoff is worth it depends on how urgently the Pricing Engine needs to ship versus how comfortable the team is with the attester trust concentration during the interim period.
+        <br><br>
+        <strong>Recommendation:</strong> The team should explicitly evaluate alternatives #1 and #3 above. If the Rebalance contract is retained, the mitigations from Security Audit H-02 should be treated as mandatory: source/destination allowlists, per-operation value caps, and time-delayed execution for large movements.
+    </div>
+
+    </div>
+</section>
+
+
 <section id="security-audit" class="card report-section">
     <h2 class="section-title">Solidity Security Audit</h2>
     <div class="section-content">
