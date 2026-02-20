@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPN Settlement Review Report</title>
+    <style>
+        /* --- Reset & Base --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 70px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f0f2f5;
+        }
+
+        /* --- Navigation --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #2c3e50;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            height: 56px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .navbar .brand {
+            color: #ecf0f1;
+            font-size: 16px;
+            font-weight: 700;
+            margin-right: 32px;
+            white-space: nowrap;
+        }
+        .nav-link {
+            color: #bdc3c7;
+            text-decoration: none;
+            padding: 16px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s, border-bottom 0.2s;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: #ecf0f1;
+            border-bottom-color: #3498db;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .page-header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+        .page-header .subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            padding: 32px;
+            margin-bottom: 28px;
+        }
+
+        /* --- Synthesis Section --- */
+        .synthesis-section {
+            border-top: 4px solid #2c3e50;
+        }
+        .synthesis-section > h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+        .synthesis-section > h3 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+        .priority-actions {
+            padding-left: 24px;
+        }
+        .priority-actions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* --- Report Sections --- */
+        .section-title {
+            font-size: 24px;
+            color: #fff;
+            background: #2c3e50;
+            margin: -32px -32px 24px -32px;
+            padding: 18px 32px;
+            border-radius: 8px 8px 0 0;
+        }
+        .section-content h1 {
+            font-size: 22px;
+            color: #2c3e50;
+            margin: 28px 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        .section-content h2 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin: 24px 0 10px 0;
+        }
+        .section-content h3 {
+            font-size: 17px;
+            color: #34495e;
+            margin: 20px 0 8px 0;
+        }
+        .section-content h4 {
+            font-size: 15px;
+            color: #34495e;
+            margin: 16px 0 6px 0;
+        }
+        .section-content h5, .section-content h6 {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin: 12px 0 6px 0;
+        }
+
+        /* --- Typography --- */
+        p {
+            margin-bottom: 12px;
+        }
+        strong {
+            font-weight: 600;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            padding: 12px 16px;
+            margin: 12px 0;
+            color: #555;
+            font-style: italic;
+        }
+        blockquote p {
+            margin-bottom: 0;
+        }
+        ul, ol {
+            padding-left: 24px;
+            margin-bottom: 12px;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 24px 0;
+        }
+
+        /* --- Code --- */
+        code.inline {
+            background: #f0f2f5;
+            color: #c0392b;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        }
+        pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        }
+
+        /* --- Tables --- */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        thead {
+            background: #2c3e50;
+            color: #fff;
+        }
+        th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* --- Severity Badges --- */
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-critical {
+            background: #e74c3c;
+            color: #fff;
+        }
+        .badge-high {
+            background: #e67e22;
+            color: #fff;
+        }
+        .badge-medium {
+            background: #f1c40f;
+            color: #333;
+        }
+        .badge-low {
+            background: #3498db;
+            color: #fff;
+        }
+        .badge-info {
+            background: #95a5a6;
+            color: #fff;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px;
+            }
+            .navbar .brand {
+                width: 100%;
+                margin-bottom: 6px;
+            }
+            .nav-link {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+            .card {
+                padding: 20px;
+            }
+            .section-title {
+                margin: -20px -20px 16px -20px;
+                padding: 14px 20px;
+                font-size: 20px;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+
+        /* --- Print --- */
+        @media print {
+            body {
+                background: #fff;
+                color: #000;
+                font-size: 11pt;
+            }
+            .navbar {
+                position: static;
+                background: #2c3e50;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+            .section-title {
+                background: #2c3e50 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            pre {
+                background: #f5f5f5 !important;
+                color: #333 !important;
+                border: 1px solid #ddd;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            thead {
+                background: #2c3e50 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            a {
+                color: #000;
+                text-decoration: underline;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <span class="brand">CPN Settlement Review Report</span>
+        
+        <a href="#synthesis" class="nav-link">Synthesis</a>
+        <a href="#security-audit" class="nav-link">Security Audit</a>
+        <a href="#architect-review" class="nav-link">Architect Review</a>
+        <a href="#engineering-review" class="nav-link">Engineering Review</a>
+    
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>CPN Onchain Settlement with Pricing Engine Enablement</h1>
+            <p class="subtitle">Combined Design Review Report &mdash; 2026-02-20</p>
+        </div>
+
+        
+<section id="synthesis" class="card synthesis-section">
+    <h2>Cross-Review Synthesis</h2>
+    <p>This section consolidates findings from all three independent reviews, highlighting convergent themes and prioritized action items.</p>
+
+    <h3>Verdict Summary</h3>
+    <div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Review</th>
+                <th>Verdict</th>
+                <th>Key Findings</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Solidity Security Audit</td>
+                <td>21 findings (1C, 5H, 7M, 4L, 4I)</td>
+                <td>Overall Risk: <span class="badge badge-high">MODERATE-HIGH</span></td>
+            </tr>
+            <tr>
+                <td>Architect Review</td>
+                <td><strong>Approve with Changes</strong></td>
+                <td>3 Blocking, 6 High-priority</td>
+            </tr>
+            <tr>
+                <td>Engineering Design Review</td>
+                <td><strong>Approve with Required Changes</strong></td>
+                <td>0 Blockers, 10 Required Changes</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <h3>Convergent Themes</h3>
+    <p>Issues independently identified by multiple reviews carry the highest confidence and priority.</p>
+    <div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Theme</th>
+                <th>Security Audit</th>
+                <th>Architect Review</th>
+                <th>Engineering Review</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><strong>Solana No Onchain Validation</strong></td>
+                <td><span class="badge badge-critical">C-01 Critical</span></td>
+                <td><span class="badge badge-critical">R14 Critical</span></td>
+                <td>Required Change #2</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><strong>Attester Compromise Blast Radius</strong></td>
+                <td><span class="badge badge-high">H-01 High</span></td>
+                <td><span class="badge badge-critical">R10 Critical</span></td>
+                <td>Required Change #1</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><strong>Refund Amount Unbounded</strong></td>
+                <td><span class="badge badge-high">H-04 High</span></td>
+                <td><span class="badge badge-medium">C2 Medium</span></td>
+                <td>Required Change #5</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><strong>BFI Price Privacy Inconsistency</strong></td>
+                <td><span class="badge badge-high">H-05 High</span></td>
+                <td><span class="badge badge-high">C16 High</span></td>
+                <td>Required Change #2</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><strong>Optional BFI Signature Risk</strong></td>
+                <td><span class="badge badge-medium">M-01 Medium</span></td>
+                <td><span class="badge badge-low">C7 Low</span></td>
+                <td>Security Agent</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><strong>Missing Business Event Monitoring</strong></td>
+                <td>&mdash;</td>
+                <td><span class="badge badge-high">R22 High</span></td>
+                <td>Required Change #6</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <h3>Priority Action Items</h3>
+    <ol class="priority-actions">
+        <li><strong>Quantify/bound attester blast radius</strong> with velocity monitoring</li>
+        <li><strong>Resolve Solana BFI Price privacy leakage</strong> with Product/Legal sign-off</li>
+        <li><strong>Add fuzz/invariant testing</strong> for fund flow correctness</li>
+        <li><strong>Create incident response runbooks</strong></li>
+        <li><strong>Add onchain refund amount ceiling</strong></li>
+        <li><strong>Clarify PSC Refund activation mechanism</strong></li>
+        <li><strong>Add business event monitoring</strong> (NonceUsed, RefundExecuted, RebalanceDistributed)</li>
+    </ol>
+</section>
+
+
+        
+<section id="security-audit" class="card report-section">
+    <h2 class="section-title">Solidity Security Audit</h2>
+    <div class="section-content">
+        <h1 id="security-audit-report-cpn-onchain-settlement-with-pricing-engine-enablement">Security Audit Report: CPN Onchain Settlement with Pricing Engine Enablement</h1>
+<p><strong>Audit Type</strong>: Design-Level Review (Pseudocode / Architecture) <strong>Document Version</strong>: ENGINEERIN-CPN Onchain Settlement with Pricing Engine Enablement-200226-172050 <strong>Date</strong>: 2026-02-20 <strong>Auditor</strong>: Claude Opus 4.6 (AI-Assisted Security Review) <strong>Scope</strong>: EVM PaymentSettlement Contract (execute, refund), Rebalance Contract, Solana Composable Transaction Architecture</p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#findings-summary">Findings Summary</a></li>
+<li><a href="#detailed-findings">Detailed Findings</a></li>
+<li><a href="#executive-summary">Executive Summary</a></li>
+</ol>
+<hr>
+<h2 id="findings-summary">Findings Summary</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>Severity</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-01</td>
+<td>Solana: No Onchain Validation Enables Unrestricted Fund Diversion</td>
+<td><span class="badge badge-critical">Critical</span></td>
+<td>Architecture / Solana</td>
+</tr>
+<tr>
+<td>H-01</td>
+<td>Compromised Attester Can Drain CPN Incentive Wallet and Misdirect All Payments</td>
+<td><span class="badge badge-high">High</span></td>
+<td>Access Control / Trust Model</td>
+</tr>
+<tr>
+<td>H-02</td>
+<td>Rebalance Contract Provides Attester-Only Arbitrary Fund Movement</td>
+<td><span class="badge badge-high">High</span></td>
+<td>Access Control / Fund Flow</td>
+</tr>
+<tr>
+<td>H-03</td>
+<td>Refund Sources Opaque to Signers Enables Attester-Controlled Fund Substitution</td>
+<td><span class="badge badge-high">High</span></td>
+<td>Signature Security / Trust Boundary</td>
+</tr>
+<tr>
+<td>H-04</td>
+<td>No Onchain Ceiling on Refund Amounts Relative to Original Payment</td>
+<td><span class="badge badge-high">High</span></td>
+<td>Fund Flow / Logic Error</td>
+</tr>
+<tr>
+<td>H-05</td>
+<td>Solana: OFI Observes BFI Price Breaking Privacy Invariant</td>
+<td><span class="badge badge-high">High</span></td>
+<td>Privacy / Information Leakage</td>
+</tr>
+<tr>
+<td>M-01</td>
+<td>Optional BFI Signature Allows Silent Under-Payment to Payee</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Signature Security / Fund Flow</td>
+</tr>
+<tr>
+<td>M-02</td>
+<td>Fee-on-Transfer Tokens Break Fund Sufficiency Invariant</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Token Compatibility / Logic Error</td>
+</tr>
+<tr>
+<td>M-03</td>
+<td>Incentive Provider Witness Contains payerAuthorizedAmount Enabling Inference of Pricing</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Privacy / Information Leakage</td>
+</tr>
+<tr>
+<td>M-04</td>
+<td>Cross-Chain Replay of Refund Signatures Between Same-Address Deployments</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Signature Security / Replay</td>
+</tr>
+<tr>
+<td>M-05</td>
+<td>Payer Witness Value Computed as payerAuthorizedAmount - maxFee Creates Coupling Risk</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Signature Security / Logic Error</td>
+</tr>
+<tr>
+<td>M-06</td>
+<td>Zero payeeSettlementAmount Edge Case Permits Fee-Only Extraction</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Logic Error / Edge Case</td>
+</tr>
+<tr>
+<td>M-07</td>
+<td>Solana Refund Architecture Relies on CPN Operational Wallet Pre-Funding</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>Fund Flow / Operational Risk</td>
+</tr>
+<tr>
+<td>L-01</td>
+<td>beneficiary == payee Allows Fee to Be Routed to Payee</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>Logic Error / Edge Case</td>
+</tr>
+<tr>
+<td>L-02</td>
+<td>No Minimum or Maximum Bounds on incentiveData.permit.permitted.amount</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>Logic Error / Edge Case</td>
+</tr>
+<tr>
+<td>L-03</td>
+<td>PaymentRecord Storage Growth Is Unbounded</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>Denial of Service / Gas</td>
+</tr>
+<tr>
+<td>L-04</td>
+<td>Solana Memo-Only Payment ID Tracking Has No Replay Protection</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>Replay / Solana</td>
+</tr>
+<tr>
+<td>I-01</td>
+<td>Missing from == to Check in PaymentIntent</td>
+<td><span class="badge badge-info">Informational</span></td>
+<td>Edge Case</td>
+</tr>
+<tr>
+<td>I-02</td>
+<td>Non-Upgradeable Contract Limits Future Remediation Options</td>
+<td><span class="badge badge-info">Informational</span></td>
+<td>Architecture</td>
+</tr>
+<tr>
+<td>I-03</td>
+<td>totalSourceAmount Overflow in Refund Loop Is Theoretically Possible</td>
+<td><span class="badge badge-info">Informational</span></td>
+<td>Arithmetic</td>
+</tr>
+<tr>
+<td>I-04</td>
+<td>Event Emission Ordering Relative to State Changes</td>
+<td><span class="badge badge-info">Informational</span></td>
+<td>Best Practice</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h2 id="detailed-findings">Detailed Findings</h2>
+<hr>
+<h2 id="c-01-solana-no-onchain-validation-enables-unrestricted-fund-diversion">[C-01] Solana: No Onchain Validation Enables Unrestricted Fund Diversion</h2>
+<p><strong>Severity</strong>: <span class="badge badge-critical">Critical</span> <strong>Category</strong>: Architecture / Solana</p>
+<h3 id="description">Description</h3>
+<p>The Solana architecture explicitly forgoes a custom onchain program. All fund movements are composed from native SPL Token Transfer instructions. The only verification is performed offchain by the attester before constructing the transaction. There is no onchain enforcement of:</p>
+<ul>
+<li>Payment nonce uniqueness (replay protection)</li>
+<li>Amount invariants (BFI Price + Fee == total pulled from payer)</li>
+<li>Time window validity</li>
+<li>Relationship between instruction amounts (nothing prevents instruction 4 from being set to 0 while instruction 5 captures everything)</li>
+</ul>
+<p>The design document states: "No custom onchain verification; all verification is performed offchain by the attester before transaction construction." This means the <strong>entire correctness of the Solana settlement depends on the attester's backend software being bug-free and its signing keys being uncompromised</strong>.</p>
+<h3 id="impact">Impact</h3>
+<p>If the attester key is compromised or the backend has a bug in transaction construction:</p>
+<ol>
+<li><strong>Replay</strong>: The same payment can be executed multiple times since there is no onchain nonce registry. The only protection is that Solana transaction signatures are unique, but nothing prevents constructing a new transaction with the same business payment ID and different amounts.</li>
+<li><strong>Fund diversion</strong>: The attester can construct a transaction where the Payer sends OFI Price + Fee to the CPN Incentive Wallet (instruction 3) but instruction 4 sends 0 to the Payee and instruction 5 sends the full amount to the CPN Beneficiary Wallet.</li>
+<li><strong>Amount manipulation</strong>: Nothing onchain prevents the attester from changing the BFI Price in instruction 4 to a lower value, skimming the difference.</li>
+</ol>
+<p>The OFI co-signs the full transaction and can theoretically observe the amounts. However, the OFI is presented with a serialized binary transaction (<code class="inline">encodedPayload</code>) that requires parsing to verify. In automated flows where OFI wallets auto-sign based on the attester's request (as is typical in production integrations), this check may not occur.</p>
+<h3 id="proof-of-concept-attack-scenario">Proof of Concept (Attack Scenario)</h3>
+<ol>
+<li>Attester key is compromised (or attester backend has a logic bug).</li>
+<li>Attacker constructs a Solana transaction for a legitimate payment where:</li>
+</ol>
+<ul>
+<li>Instruction 3: Payer -> CPN Incentive Wallet: 100 USDC (correct)</li>
+<li>Instruction 4: CPN Incentive Wallet -> Payee: 0 USDC (should be 97.5)</li>
+<li>Instruction 5: CPN Incentive Wallet -> CPN Beneficiary: 100 USDC (captures everything)</li>
+</ul>
+<ol>
+<li>The Memo instruction records a valid payment ID for plausible deniability.</li>
+<li>The OFI auto-signs via Circle Wallets API. The CPN Incentive Wallet co-signs (both controlled by CPN).</li>
+<li>Payee receives nothing. CPN captures all funds. No onchain evidence of wrongdoing beyond instruction amounts.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Implement a custom Solana program</strong> (even a minimal one) that enforces:</li>
+</ol>
+<ul>
+<li>Payment nonce uniqueness via a PDA (Program Derived Address) state account</li>
+<li>Amount invariants: verify that transfer instruction amounts match signed intent data</li>
+<li>Time window enforcement via <code class="inline">Clock</code> sysvar</li>
+</ul>
+<ol>
+<li>If a custom program is not feasible, require <strong>OFI to independently verify all instruction amounts</strong> in the serialized transaction before signing, with documentation and tooling to support this verification.</li>
+<li>Add an onchain lookup table or PDA that records payment IDs with status, enabling replay detection.</li>
+<li>At minimum, require a <strong>signed payment intent from the OFI</strong> (not just a transaction co-signature) that commits to the BFI Price, so any discrepancy between the signed intent and the actual instruction amounts can be detected in post-hoc auditing.</li>
+</ol>
+<hr>
+<h2 id="h-01-compromised-attester-can-drain-cpn-incentive-wallet-and-misdirect-all-payments">[H-01] Compromised Attester Can Drain CPN Incentive Wallet and Misdirect All Payments</h2>
+<p><strong>Severity</strong>: <span class="badge badge-high">High</span> <strong>Category</strong>: Access Control / Trust Model</p>
+<h3 id="description">Description</h3>
+<p>The attester (CPN Relayer) is the single most trusted entity in the system. On EVM, the attester:</p>
+<ol>
+<li>Is the only entity that can call <code class="inline">execute()</code> (via <code class="inline">onlyAttester</code> modifier)</li>
+<li>Constructs the canonical <code class="inline">PaymentIntent</code> calldata including <code class="inline">payerAuthorizedAmount</code>, <code class="inline">payeeSettlementAmount</code>, <code class="inline">maxFee</code>, and <code class="inline">beneficiary</code></li>
+<li>Provides the <code class="inline">fee</code> parameter (which can be any value up to <code class="inline">maxFee</code>)</li>
+<li>Controls the <code class="inline">RefundSource[]</code> array in refunds (opaque to signers)</li>
+<li>On Solana, constructs the entire transaction with no onchain constraints</li>
+</ol>
+<p>The blast radius of a compromised attester key includes:</p>
+<ul>
+<li><strong>Misdirecting BFI payments</strong>: Setting <code class="inline">payeeSettlementAmount</code> to a lower value and <code class="inline">maxFee</code> higher (if BFI signing is not required, which is the default). The excess goes to the <code class="inline">beneficiary</code> address, which the attester controls in the <code class="inline">PaymentIntent</code>.</li>
+<li><strong>Draining CPN Incentive Wallet</strong>: Crafting incentive payments that pull the maximum incentive amount but deliver less to the BFI, routing the difference as fee to the beneficiary.</li>
+<li><strong>Refund manipulation</strong>: Constructing <code class="inline">RefundSource[]</code> arrays that pull from CPN wallets and distribute to attacker-controlled addresses (if attester-controlled wallets are used as sources).</li>
+</ul>
+<h3 id="impact">Impact</h3>
+<p>Complete compromise of all payment flows. An attacker with the attester key can:</p>
+<ul>
+<li>Steal from the CPN Incentive Wallet on every incentivized payment</li>
+<li>Under-pay every BFI that does not opt into payee signing</li>
+<li>Manipulate refund distributions via source array control</li>
+</ul>
+<p>The design document acknowledges this: "a compromised or malicious relayer could reduce or omit the BFI payout and divert value to the beneficiary."</p>
+<h3 id="proof-of-concept-attack-scenario">Proof of Concept (Attack Scenario)</h3>
+<ol>
+<li>Attester key compromised via backend exploitation, insider threat, or KMS key extraction.</li>
+<li>For each incoming payment (OFI Price = 99.5, BFI Price = 97.5, Fee = 2.5):</li>
+</ol>
+<ul>
+<li>Attester constructs PaymentIntent with <code class="inline">payeeSettlementAmount = 90</code> (instead of 97.5) and <code class="inline">maxFee = 9.5</code>.</li>
+<li>OFI signs Permit2 for 99.5 USDC (<code class="inline">payerAuthorizedAmount</code>). The witness value = 99.5 - 9.5 = 90 (matches the manipulated payeeSettlementAmount).</li>
+<li>BFI receives 90 USDC instead of 97.5. The beneficiary (attacker-controlled) receives 9.5 USDC.</li>
+</ul>
+<ol>
+<li>This works because the OFI does not know the BFI Price by design, and the BFI signature is optional.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Mandate BFI signature</strong> (<code class="inline">requirePayeeSign = true</code>) for all payments above a configurable threshold, at minimum. This creates an onchain guarantee that the BFI attested to the settlement amount.</li>
+<li><strong>Implement multi-attester consensus</strong> for high-value payments (e.g., 2-of-3 attester signatures required).</li>
+<li><strong>Rate-limit and monitor</strong> the attester's execution patterns for anomalies (sudden change in fee-to-settlement ratios, unusual beneficiary addresses).</li>
+<li><strong>Separate the attester role from CPN wallet control</strong>: Ensure the attester key cannot also authorize incentive wallet or beneficiary wallet movements.</li>
+<li><strong>Add a configurable fee cap</strong> at the contract level (not just per-intent <code class="inline">maxFee</code>) to bound the maximum fee percentage the contract will process.</li>
+</ol>
+<hr>
+<h2 id="h-02-rebalance-contract-provides-attester-only-arbitrary-fund-movement">[H-02] Rebalance Contract Provides Attester-Only Arbitrary Fund Movement</h2>
+<p><strong>Severity</strong>: <span class="badge badge-high">High</span> <strong>Category</strong>: Access Control / Fund Flow</p>
+<h3 id="description">Description</h3>
+<p>The Rebalance contract is a standalone utility that allows any configured attester to move funds from arbitrary sources to arbitrary destinations, subject only to:</p>
+<ul>
+<li>Attester-only access control</li>
+<li>Time window enforcement</li>
+<li>Balance invariant (total sources == total distributions)</li>
+<li>Nonce uniqueness</li>
+<li>Non-zero addresses and amounts</li>
+<li>Token consistency</li>
+</ul>
+<p>There is <strong>no payment linkage, no per-party signature requirement, no amount ceiling, and no restriction on who can be a source or destination</strong>. The Rebalance contract is, by design, a general-purpose attester-controlled fund router.</p>
+<h3 id="impact">Impact</h3>
+<p>A compromised attester can use the Rebalance contract to:</p>
+<ol>
+<li>Drain any wallet that has granted Permit2 approval to the Rebalance contract address (or that provides a valid PermitTransferFrom signature).</li>
+<li>Route funds to any arbitrary destination address.</li>
+<li>Execute this repeatedly with different nonces.</li>
+</ol>
+<p>The only constraint is that source wallets must have approved the Rebalance contract as a Permit2 spender or must provide valid transfer signatures. In the CPN architecture, the CPN Refund Wallet and CPN Operational Wallet likely have standing Permit2 approvals, making them vulnerable.</p>
+<h3 id="proof-of-concept-attack-scenario">Proof of Concept (Attack Scenario)</h3>
+<ol>
+<li>The CPN Refund Wallet has granted a high Permit2 allowance to the Rebalance contract for operational efficiency.</li>
+<li>Attester key is compromised.</li>
+<li>Attacker constructs a <code class="inline">RebalanceIntent</code> with:</li>
+</ol>
+<ul>
+<li>Source: CPN Refund Wallet, amount: entire balance</li>
+<li>Distribution: attacker-controlled address, same amount</li>
+</ul>
+<ol>
+<li>Submits the transaction. Balance invariant is satisfied. Funds are transferred.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Add an allowlist of valid source and destination addresses</strong> configurable by the contract owner (not the attester). Only whitelisted addresses can appear in <code class="inline">RebalanceSource</code> and <code class="inline">RebalanceDistribution</code>.</li>
+<li><strong>Implement per-operation value caps</strong> configurable by the owner.</li>
+<li><strong>Require time-delayed execution</strong> for rebalance operations above a threshold (e.g., a 24-hour delay with a cancellation window).</li>
+<li><strong>Consider requiring multi-sig or secondary authorization</strong> for the Rebalance contract rather than attester-only access.</li>
+<li><strong>Minimize Permit2 allowances</strong> to the Rebalance contract. Use per-transaction permits (signature-based) rather than standing allowances.</li>
+</ol>
+<hr>
+<h2 id="h-03-refund-sources-opaque-to-signers-enables-attester-controlled-fund-substitution">[H-03] Refund Sources Opaque to Signers Enables Attester-Controlled Fund Substitution</h2>
+<p><strong>Severity</strong>: <span class="badge badge-high">High</span> <strong>Category</strong>: Signature Security / Trust Boundary</p>
+<h3 id="description">Description</h3>
+<p>In the PSC Refund function, the <code class="inline">RefundSource[]</code> array is entirely controlled by the attester. Neither the original payer nor the incentive provider can validate or restrict where refund funds come from. The design document explicitly states:</p>
+<blockquote><p>"Limitation - refund sources are opaque to signers: The RefundSource array (wallets from which funds are pulled) is determined solely by the attester at execution time. Signers authorize how much they receive but cannot verify where funds come from onchain."</p></blockquote>
+<p>This means:</p>
+<ol>
+<li>The payer signs a <code class="inline">PayerRefundIntent</code> committing only to <code class="inline">refundAmount</code> (what they receive).</li>
+<li>The incentive provider signs an <code class="inline">IncentiveProviderRefundIntent</code> committing only to their <code class="inline">refundAmount</code>.</li>
+<li>The attester can pull funds from <strong>any wallet</strong> that has provided a Permit2 signature or approval for this transaction.</li>
+</ol>
+<h3 id="impact">Impact</h3>
+<p>The attester could construct refund transactions that pull funds from unintended sources:</p>
+<ul>
+<li>Pull from Wallet A's Permit2 authorization to fund a refund for an unrelated Payment B, effectively stealing from Wallet A.</li>
+<li>Pull from the CPN Incentive Wallet (using a valid Permit2 signature obtained for a different purpose) to fund refunds, depleting incentive reserves.</li>
+</ul>
+<p>More subtly, the attester could source refund funds from a compromised or stolen wallet, effectively laundering those funds through the refund mechanism as legitimate-looking distributions to OFI addresses.</p>
+<h3 id="proof-of-concept-attack-scenario">Proof of Concept (Attack Scenario)</h3>
+<ol>
+<li>Payment A was made by OFI-1 for 100 USDC. Payment B was made by OFI-2 for 200 USDC.</li>
+<li>OFI-1 requests a refund. Attester should source funds from the CPN Refund Wallet where BFI returned funds for Payment A.</li>
+<li>Instead, attester constructs a <code class="inline">RefundSource</code> that pulls from a Permit2 signature obtained from the CPN Operational Wallet for an unrelated purpose.</li>
+<li>The payer (OFI-1) receives their refund and signs happily. But the CPN Operational Wallet's balance is incorrectly depleted.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Bind RefundSource to the payment record</strong>: Add the expected source address(es) to the <code class="inline">PaymentRecord</code> stored during <code class="inline">execute()</code>, and validate during refund that sources match the recorded expectation.</li>
+<li><strong>Include source information in the signer's typed data</strong>: Extend <code class="inline">PayerRefundIntent</code> to include the expected source address, so the payer can validate where their refund is coming from.</li>
+<li>At minimum, <strong>restrict refund sources to a whitelist</strong> of CPN-controlled wallets set by the contract owner.</li>
+</ol>
+<hr>
+<h2 id="h-04-no-onchain-ceiling-on-refund-amounts-relative-to-original-payment">[H-04] No Onchain Ceiling on Refund Amounts Relative to Original Payment</h2>
+<p><strong>Severity</strong>: <span class="badge badge-high">High</span> <strong>Category</strong>: Fund Flow / Logic Error</p>
+<h3 id="description">Description</h3>
+<p>The PSC refund function validates:</p>
+<ul>
+<li>Balance invariant: <code class="inline">totalSourceAmount == totalDistAmount</code> (where <code class="inline">totalDistAmount = payerRefundAmount + incentiveProviderRefundAmount</code>)</li>
+<li>Per-party signature verification</li>
+<li>One refund per payment nonce</li>
+</ul>
+<p>However, it does <strong>not</strong> validate that:</p>
+<ul>
+<li><code class="inline">payerRefundAmount <= original payerAuthorizedAmount</code></li>
+<li><code class="inline">incentiveProviderRefundAmount <= original incentive amount</code></li>
+<li><code class="inline">payerRefundAmount + incentiveProviderRefundAmount <= original total settlement amount</code></li>
+</ul>
+<p>The design document states: "No Amount Ceiling. Partial and full refunds are both supported. Offchain attestation is the trust boundary."</p>
+<p>This means the attester can construct a refund where <code class="inline">payerRefundAmount</code> exceeds the original payment, effectively using the refund mechanism to transfer additional funds to the OFI.</p>
+<h3 id="impact">Impact</h3>
+<p>A compromised attester (or a bug in the offchain logic) could:</p>
+<ol>
+<li>Issue a refund for 1000 USDC on a payment that was originally 100 USDC.</li>
+<li>As long as the RefundSource(s) have sufficient balance and valid permits, and the payer signs the inflated refund amount, the refund succeeds.</li>
+<li>This effectively allows the attester to transfer arbitrary amounts to any historical payer through the refund mechanism.</li>
+</ol>
+<p>The payer must sign the refund amount, which provides some protection (the payer would see the inflated amount). However, in automated OFI systems that programmatically sign refund intents based on attester requests, this check may be bypassed.</p>
+<h3 id="proof-of-concept-attack-scenario">Proof of Concept (Attack Scenario)</h3>
+<ol>
+<li>OFI-1 made a payment of 100 USDC (nonce: 0x123).</li>
+<li>Attester constructs a RefundIntent with <code class="inline">payerRefundAmount = 10000</code>, <code class="inline">incentiveProviderRefundAmount = 0</code>.</li>
+<li>Attester obtains OFI-1's signature on the PayerRefundIntent (OFI-1's automated system signs because it trusts the attester).</li>
+<li>Attester sources the 10000 USDC from CPN Refund Wallet (which has accumulated balance from many payments).</li>
+<li>10000 USDC is transferred to OFI-1. The CPN Refund Wallet is drained.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Store the original payment amounts in <code class="inline">PaymentRecord</code></strong>: Extend to <code class="inline">struct PaymentRecord { address payer; address incentiveProvider; uint256 payerAmount; uint256 incentiveAmount; }</code>.</li>
+<li><strong>Enforce an onchain ceiling</strong>: <code class="inline">payerRefundAmount <= payerAmount</code> and <code class="inline">incentiveProviderRefundAmount <= incentiveAmount</code>.</li>
+<li>If partial refunds with fee returns must exceed the original amounts (e.g., OFI receives their principal plus previously collected fee), define and enforce that specific formula onchain rather than leaving it unconstrained.</li>
+</ol>
+<hr>
+<h2 id="h-05-solana-ofi-observes-bfi-price-breaking-privacy-invariant">[H-05] Solana: OFI Observes BFI Price Breaking Privacy Invariant</h2>
+<p><strong>Severity</strong>: <span class="badge badge-high">High</span> <strong>Category</strong>: Privacy / Information Leakage</p>
+<h3 id="description">Description</h3>
+<p>A core product requirement is that the BFI Price is hidden from the OFI to preserve pricing decoupling. The design document explicitly states:</p>
+<blockquote><p>"Product is intentionally hiding BFI Price from the OFI during the quote phase to preserve pricing decoupling."</p></blockquote>
+<p>On EVM, this is achieved: the OFI signs a Permit2 witness containing <code class="inline">value = payerAuthorizedAmount - maxFee</code> (which equals OFI Price, not BFI Price), and the BFI Price appears only in the contract calldata constructed by the attester.</p>
+<p>However, on Solana, the design document states:</p>
+<blockquote><p>"All signers sign the full serialized Solana transaction message, which includes every instruction. This means the OFI can observe the full transaction contents (including BFI Price in instruction 4) before signing."</p></blockquote>
+<p>Instruction 4 explicitly contains: <code class="inline">CPN Incentive Wallet -> Payee Wallet: BFI Price</code>. The OFI, as a required co-signer, <strong>must</strong> see and sign this instruction, giving them direct visibility into the BFI Price.</p>
+<h3 id="impact">Impact</h3>
+<p>This fundamentally violates the stated privacy invariant on Solana. An OFI can:</p>
+<ol>
+<li>Observe the exact BFI Price for every transaction.</li>
+<li>Calculate the exact arbitrage or incentive amount: <code class="inline">OFI Price - BFI Price</code>.</li>
+<li>Use this information to negotiate better rates, undercut CPN's pricing, or refuse to sign transactions where they perceive the spread as too high.</li>
+<li>Over time, reconstruct CPN's complete pricing model and BFI-specific commercial terms.</li>
+</ol>
+<p>This is not a bug per se -- the design team acknowledges this in the document. However, it represents a critical asymmetry between EVM and Solana security properties that should be treated as a high-severity design-level finding because it violates a stated product requirement.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Implement a custom Solana program</strong> that accepts an OFI-signed intent (committing only to OFI Price + Fee) and handles the split distribution onchain. This would mirror the EVM approach where the OFI does not see the BFI Price in their signed artifact.</li>
+<li>If a custom program is not feasible, <strong>formally accept and document this privacy gap</strong> with product and compliance sign-off, including assessment of business risk if OFIs use this information adversarially.</li>
+<li>Consider whether Solana payments should use a different fund flow design where the OFI transfers directly to the Payee (BFI Price) and to the CPN Beneficiary (Fee), which the OFI already knows. The CPN Incentive Wallet would separately top up the difference. This leaks the same information but via a design the OFI already consents to.</li>
+</ol>
+<hr>
+<h2 id="m-01-optional-bfi-signature-allows-silent-under-payment-to-payee">[M-01] Optional BFI Signature Allows Silent Under-Payment to Payee</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Signature Security / Fund Flow</p>
+<h3 id="description">Description</h3>
+<p>When <code class="inline">requirePayeeSign == false</code> (the default, per the design), the BFI has no onchain guarantee of the settlement amount. The attester constructs the <code class="inline">PaymentIntent</code> and sets <code class="inline">payeeSettlementAmount</code> without any BFI-signed commitment.</p>
+<p>The design document acknowledges the tradeoff:</p>
+<blockquote><p>"Without the BFI signature (requirePayeeSign == false), the BFI implicitly trusts CPN to construct the payment intent correctly. The risk is that the BFI has no onchain guarantee of its settlement amount. If the payment intent were compromised or incorrectly constructed, the BFI could receive less than expected for an otherwise successful onchain payment."</p></blockquote>
+<p>While the design document positions this as a deliberate usability tradeoff, from a security perspective, this means:</p>
+<ul>
+<li>A bug in the attester's intent construction logic could systematically under-pay all BFIs.</li>
+<li>A compromised attester can selectively under-pay BFIs while the payments appear successful onchain.</li>
+<li>The BFI has no way to dispute onchain because there is no signed commitment to compare against.</li>
+</ul>
+<h3 id="impact">Impact</h3>
+<p>BFIs could receive less than the agreed settlement amount without any onchain evidence of the discrepancy. Detection depends entirely on offchain reconciliation between the BFI's expected fiat amount and the actual onchain USDC receipt.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Default to <code class="inline">requirePayeeSign = true</code></strong> for production payments and make opting out an explicit per-BFI configuration with documented risk acceptance.</li>
+<li><strong>Emit the BFI's expected amount in the NonceUsed event</strong> (already done via <code class="inline">payeeSettlementAmount</code>), and provide BFIs with monitoring tools to compare event data against their expectations.</li>
+<li><strong>Implement an offchain reconciliation service</strong> that alerts on discrepancies between the Pricing Engine's expected BFI amount and the actual onchain settlement.</li>
+</ol>
+<hr>
+<h2 id="m-02-fee-on-transfer-tokens-break-fund-sufficiency-invariant">[M-02] Fee-on-Transfer Tokens Break Fund Sufficiency Invariant</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Token Compatibility / Logic Error</p>
+<h3 id="description">Description</h3>
+<p>The <code class="inline">execute()</code> function's fund distribution logic assumes that <code class="inline">safeTransfer(recipient, amount)</code> delivers exactly <code class="inline">amount</code> tokens to the recipient. Specifically:</p>
+<pre><code class="language-">// Step 7: Pull from payer via Permit2
+_pullViaPermit2(..., amount: payerPullAmount)
+
+// Step 8: Distribution
+IERC20(intent.token).safeTransfer(intent.beneficiary, fee);
+IERC20(intent.token).safeTransfer(intent.to, intent.payeeSettlementAmount);</code></pre>
+<p>If <code class="inline">intent.token</code> is a fee-on-transfer token (which deducts a percentage on each transfer), then:</p>
+<ol>
+<li>The Permit2 pull of <code class="inline">payerPullAmount</code> delivers less than <code class="inline">payerPullAmount</code> to the contract.</li>
+<li>The subsequent <code class="inline">safeTransfer</code> of <code class="inline">fee</code> to the beneficiary deducts again.</li>
+<li>The final <code class="inline">safeTransfer</code> of <code class="inline">payeeSettlementAmount</code> to the payee may revert due to insufficient contract balance.</li>
+</ol>
+<h3 id="impact">Impact</h3>
+<p>While the primary use case is USDC (which is not fee-on-transfer), the contract is designed to work with arbitrary <code class="inline">address token</code>. If a fee-on-transfer token is ever used:</p>
+<ol>
+<li>Payments may revert (denial of service) if the contract's balance after pulls is insufficient to cover distributions.</li>
+<li>If the fee-on-transfer percentage is small enough that the contract has sufficient balance (due to rounding), the payee receives less than <code class="inline">payeeSettlementAmount</code>, breaking the deterministic distribution guarantee.</li>
+</ol>
+<p>The same issue affects the refund and rebalance functions.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Explicitly document that only non-fee-on-transfer, non-rebasing tokens are supported</strong> (specifically USDC/EURC).</li>
+<li><strong>Add a token whitelist</strong> at the contract level, configurable by the owner, to ensure only approved stablecoin addresses can be used.</li>
+<li>Alternatively, measure received amounts via balance-before/balance-after pattern for full generality:</li>
+</ol>
+<pre><code class="language-">   uint256 balBefore = IERC20(token).balanceOf(address(this));
+   _pullViaPermit2(...);
+   uint256 received = IERC20(token).balanceOf(address(this)) - balBefore;</code></pre>
+<hr>
+<h2 id="m-03-incentive-provider-witness-contains-payerauthorizedamount-enabling-pricing-inference">[M-03] Incentive Provider Witness Contains payerAuthorizedAmount Enabling Pricing Inference</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Privacy / Information Leakage</p>
+<h3 id="description">Description</h3>
+<p>The Incentive Provider's <code class="inline">IncentiveConsent</code> witness includes <code class="inline">payerAuthorizedAmount</code>, <code class="inline">payeeSettlementAmount</code>, and <code class="inline">maxFee</code>. While the Incentive Provider is CPN-controlled (so this is not an external leak), the witness is part of the EIP-712 typed data that is <strong>signed and stored/transmitted offchain</strong>.</p>
+<p>From the design:</p>
+<blockquote><p>witness includes: from, to, payerAuthorizedAmount, payeeSettlementAmount, maxFee, nonce, validAfter/validBefore, attester</p></blockquote>
+<p>If the OFI gains access to the IncentiveConsent data (through offchain API interception, logging, or database access), they can directly observe <code class="inline">payeeSettlementAmount</code> (the BFI Price), completely breaking the privacy guarantee.</p>
+<h3 id="impact">Impact</h3>
+<p>The BFI Price, intended to be hidden from the OFI, is embedded in a signed artifact that exists offchain. Any data breach, logging accident, or API misconfiguration that exposes IncentiveConsent data to OFIs would break pricing confidentiality.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Minimize the witness fields</strong>: Consider whether <code class="inline">payerAuthorizedAmount</code> and <code class="inline">payeeSettlementAmount</code> can be replaced with their hash in the IncentiveConsent witness, while still allowing the contract to verify the binding.</li>
+<li><strong>Strict access controls</strong> on IncentiveConsent data: ensure it is never logged, never transmitted to OFI-accessible APIs, and encrypted at rest.</li>
+<li><strong>Audit all API endpoints and logging</strong> to verify that IncentiveConsent signatures are not inadvertently exposed to OFIs.</li>
+</ol>
+<hr>
+<h2 id="m-04-cross-chain-replay-of-refund-signatures-between-same-address-deployments">[M-04] Cross-Chain Replay of Refund Signatures Between Same-Address Deployments</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Signature Security / Replay</p>
+<h3 id="description">Description</h3>
+<p>The PaymentSettlement contract uses <code class="inline">Create2Factory</code> to deploy at the same address across different chains (as shown in the deployment table: "Across different chains (including mainnet and its testnet), the same address is used via the Create2Factory contract").</p>
+<p>The EIP-712 domain separator includes <code class="inline">chainId</code> and <code class="inline">verifyingContract</code>, which should prevent cross-chain replay. However, there is a subtle risk:</p>
+<p>The <code class="inline">PayerRefundIntent</code> and <code class="inline">IncentiveProviderRefundIntent</code> are signed against the PaymentSettlement contract's domain separator. If a payment nonce is used on Chain A, and the same nonce is NOT used on Chain B (because the payment only occurred on Chain A), the refund signature is still <strong>valid</strong> on Chain B from a pure EIP-712 perspective.</p>
+<p>The protection comes from Step 2 of the refund function: <code class="inline">if (record.payer == address(0)) revert PaymentNotFound</code>. Since the payment was not executed on Chain B, there is no <code class="inline">PaymentRecord</code> for that nonce, and the refund will revert.</p>
+<p>However, if a payment with the <strong>same nonce</strong> happened to be executed on <strong>both</strong> Chain A and Chain B (e.g., due to a backend bug that reuses nonces across chains), then a refund signature obtained on Chain A could potentially be replayed on Chain B, provided:</p>
+<ul>
+<li>The same payer address exists on both chains</li>
+<li>The same token address exists on both chains</li>
+<li>The same attester address exists on both chains</li>
+</ul>
+<h3 id="impact">Impact</h3>
+<p>If nonce uniqueness is not enforced globally across chains (only per-chain), and if a backend bug causes nonce collision across chains, a refund authorized on one chain could be replayed on another.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Include chain ID in the payment nonce generation</strong> to ensure nonce uniqueness across chains at the application level.</li>
+<li><strong>Document the assumption</strong> that nonce uniqueness across chains is a backend responsibility, not an onchain guarantee.</li>
+<li>Consider including <code class="inline">block.chainid</code> as an explicit field in the <code class="inline">PayerRefundIntent</code> and <code class="inline">IncentiveProviderRefundIntent</code> structs (beyond the domain separator) for defense in depth.</li>
+</ol>
+<hr>
+<h2 id="m-05-payer-witness-value-computed-as-payerauthorizedamount-maxfee-creates-coupling-risk">[M-05] Payer Witness Value Computed as payerAuthorizedAmount - maxFee Creates Coupling Risk</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Signature Security / Logic Error</p>
+<h3 id="description">Description</h3>
+<p>The payer's Permit2 witness includes a computed <code class="inline">value = payerAuthorizedAmount - maxFee</code>. From the pseudocode:</p>
+<pre><code class="language-">// Pull from payer (witness uses computed value = payerAuthorizedAmount - maxFee)
+_pullViaPermit2(
+    ...
+    PullParams({
+        witnessHash: _hashPayerPaymentIntent(intent), // computes value = payerAuthorizedAmount - maxFee
+        ...
+        amount: payerPullAmount
+    })
+)</code></pre>
+<p>The <code class="inline">value</code> field in the witness represents the OFI Price (what the OFI believes goes to the BFI). However, <code class="inline">payerPullAmount</code> (the actual amount pulled) can be <strong>less</strong> than <code class="inline">payerAuthorizedAmount</code> in the incentive case:</p>
+<ul>
+<li><code class="inline">payerPullAmount = min(payerAuthorizedAmount, payeeSettlementAmount + fee)</code></li>
+<li>In the incentive case: <code class="inline">payerPullAmount = payerAuthorizedAmount</code> (since <code class="inline">payerAuthorizedAmount < payeeSettlementAmount + fee</code>)</li>
+</ul>
+<p>The witness <code class="inline">value</code> does not change based on the actual pull amount -- it always equals <code class="inline">payerAuthorizedAmount - maxFee</code>. But the actual distribution can differ from what the value implies:</p>
+<ul>
+<li>The OFI believes <code class="inline">value</code> goes to the BFI (OFI Price).</li>
+<li>In the incentive case, <code class="inline">value < payeeSettlementAmount</code> (BFI receives more than the OFI thinks they are sending).</li>
+<li>In the arbitrage case, <code class="inline">value > payeeSettlementAmount</code> (BFI receives less than the OFI's value field, with the difference going to fees).</li>
+</ul>
+<p>This is by design, but it means the <code class="inline">value</code> field in the witness is <strong>not</strong> the amount the BFI actually receives. It is the OFI's perception of what the BFI receives, which is deliberately wrong.</p>
+<h3 id="impact">Impact</h3>
+<ol>
+<li>Any OFI that attempts to verify the witness <code class="inline">value</code> against the BFI's actual receipt will find a discrepancy in both incentive and arbitrage cases.</li>
+<li>If the OFI's compliance or audit systems check the <code class="inline">value</code> field against actual fund flows, they will flag every incentive and arbitrage payment as anomalous.</li>
+<li>This design choice makes it harder for OFIs to independently audit their payments, which could create compliance friction.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Rename the witness field</strong> from <code class="inline">value</code> to something like <code class="inline">ofiContribution</code> or <code class="inline">payerNetAmount</code> to clarify it is the OFI's view, not the actual BFI receipt.</li>
+<li><strong>Provide clear documentation</strong> to OFIs that the witness <code class="inline">value</code> field represents their net contribution minus fees, not the BFI settlement amount.</li>
+<li><strong>Provide an OFI-facing API</strong> that reconciles the witness value with actual onchain distributions for audit purposes.</li>
+</ol>
+<hr>
+<h2 id="m-06-zero-payeesettlementamount-edge-case-permits-fee-only-extraction">[M-06] Zero payeeSettlementAmount Edge Case Permits Fee-Only Extraction</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Logic Error / Edge Case</p>
+<h3 id="description">Description</h3>
+<p>The pseudocode does not check that <code class="inline">payeeSettlementAmount > 0</code>. If an attester constructs a PaymentIntent with:</p>
+<ul>
+<li><code class="inline">payeeSettlementAmount = 0</code></li>
+<li><code class="inline">payerAuthorizedAmount = maxFee</code> (to satisfy fund sufficiency: <code class="inline">payerAuthorizedAmount == payeeSettlementAmount + maxFee</code>)</li>
+<li><code class="inline">fee = maxFee</code></li>
+</ul>
+<p>Then:</p>
+<ol>
+<li>The payer is pulled <code class="inline">payerPullAmount = min(payerAuthorizedAmount, 0 + fee) = fee</code>.</li>
+<li><code class="inline">fee</code> is transferred to the beneficiary.</li>
+<li><code class="inline">0</code> is transferred to the payee (a no-op or zero-value transfer).</li>
+</ol>
+<p>This allows the attester to extract the full <code class="inline">maxFee</code> from the payer to the beneficiary without any settlement to the payee.</p>
+<h3 id="impact">Impact</h3>
+<p>While the OFI must sign the Permit2 authorization for this amount (so they consent to the total outflow), they believe their <code class="inline">value</code> (= <code class="inline">payerAuthorizedAmount - maxFee = 0</code>) represents the amount going to the BFI. An OFI might not notice that a payment intent with value = 0 is unusual if their automated system does not flag this.</p>
+<p>This could be used by a compromised attester to systematically extract small fee amounts across many payers.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Require <code class="inline">payeeSettlementAmount > 0</code></strong> in the <code class="inline">execute()</code> function.</li>
+<li><strong>Require <code class="inline">payerAuthorizedAmount > maxFee</code></strong> to ensure there is always a non-zero settlement component.</li>
+</ol>
+<hr>
+<h2 id="m-07-solana-refund-architecture-relies-on-cpn-operational-wallet-pre-funding">[M-07] Solana Refund Architecture Relies on CPN Operational Wallet Pre-Funding</h2>
+<p><strong>Severity</strong>: <span class="badge badge-medium">Medium</span> <strong>Category</strong>: Fund Flow / Operational Risk</p>
+<h3 id="description">Description</h3>
+<p>The Solana refund architecture requires the CPN Operational Wallet to be pre-funded:</p>
+<ul>
+<li><strong>Fee/Arbitrage Refund Case</strong>: The CPN Operational Wallet must forward <code class="inline">refund amount + CPN Fee</code> to the OFI. The CPN Fee portion comes from the wallet's pre-funded balance.</li>
+<li><strong>Incentive Refund Case</strong>: The CPN Operational Wallet deducts the incentive amount and forwards the remainder to the OFI.</li>
+</ul>
+<p>If the CPN Operational Wallet has insufficient balance, the refund transaction will fail atomically (which is safe). However, this creates an operational dependency where refund processing can be blocked by insufficient pre-funding.</p>
+<h3 id="impact">Impact</h3>
+<ol>
+<li><strong>Refund delays</strong>: If the CPN Operational Wallet runs low, legitimate refunds are blocked until it is topped up.</li>
+<li><strong>Cascading failures</strong>: A burst of refunds (e.g., after a merchant dispute wave) could exhaust the wallet balance, blocking all subsequent refunds.</li>
+<li><strong>No onchain guarantee</strong>: Unlike EVM where the contract enforces the refund invariant, the Solana refund relies entirely on offchain balance management.</li>
+</ol>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li><strong>Monitor CPN Operational Wallet balance</strong> with alerts at configurable thresholds.</li>
+<li><strong>Implement auto-replenishment</strong> from a treasury wallet when balance falls below a threshold.</li>
+<li><strong>Define and document SLA</strong> for refund processing, including handling of insufficient balance scenarios.</li>
+<li><strong>Consider a reserve requirement</strong>: maintain a minimum balance equal to N days' worth of expected refunds.</li>
+</ol>
+<hr>
+<h2 id="l-01-beneficiary-payee-allows-fee-to-be-routed-to-payee">[L-01] beneficiary == payee Allows Fee to Be Routed to Payee</h2>
+<p><strong>Severity</strong>: <span class="badge badge-low">Low</span> <strong>Category</strong>: Logic Error / Edge Case</p>
+<h3 id="description">Description</h3>
+<p>There is no check preventing <code class="inline">intent.beneficiary == intent.to</code>. If the beneficiary address (fee recipient) is the same as the payee address, the payee receives both the settlement amount and the fee, effectively eliminating the fee.</p>
+<h3 id="impact">Impact</h3>
+<p>This is a configuration error that the attester could exploit to waive fees for specific BFIs, or that could occur accidentally if the attester's intent construction has a bug. The financial impact is limited to fee leakage (fees going to the wrong recipient).</p>
+<h3 id="recommendation">Recommendation</h3>
+<p>Add a validation: <code class="inline">require(intent.beneficiary != intent.to, "beneficiary cannot be payee")</code>.</p>
+<hr>
+<h2 id="l-02-no-minimum-or-maximum-bounds-on-incentivedata-permit-permitted-amount">[L-02] No Minimum or Maximum Bounds on incentiveData.permit.permitted.amount</h2>
+<p><strong>Severity</strong>: <span class="badge badge-low">Low</span> <strong>Category</strong>: Logic Error / Edge Case</p>
+<h3 id="description">Description</h3>
+<p>The fund sufficiency check requires: <code class="inline">payerAuthorizedAmount + incentiveData.permit.permitted.amount == payeeSettlementAmount + maxFee</code>.</p>
+<p>The incentive permit amount is the exact shortfall needed. However, the <code class="inline">permitted.amount</code> in the Permit2 represents the <strong>maximum</strong> that can be pulled, and the actual pull amount is <code class="inline">shortfall</code>. The IncentiveConsent witness binds to <code class="inline">payerAuthorizedAmount</code>, <code class="inline">payeeSettlementAmount</code>, and <code class="inline">maxFee</code>, ensuring the shortfall calculation is correct.</p>
+<p>However, if <code class="inline">fee < maxFee</code>, the actual shortfall could be less than <code class="inline">incentiveData.permit.permitted.amount</code>:</p>
+<ul>
+<li><code class="inline">shortfall = (payeeSettlementAmount + fee) - payerAuthorizedAmount</code></li>
+<li><code class="inline">permitted.amount = payeeSettlementAmount + maxFee - payerAuthorizedAmount</code></li>
+<li>Since <code class="inline">fee <= maxFee</code>, <code class="inline">shortfall <= permitted.amount</code> (always holds).</li>
+</ul>
+<p>This means the incentive provider always authorizes the maximum possible shortfall, and the actual pull may be less. This is correct behavior, but the gap (<code class="inline">maxFee - fee</code>) worth of incentive authorization is "wasted" (authorized but not pulled).</p>
+<h3 id="impact">Impact</h3>
+<p>No direct security impact. The incentive provider authorizes slightly more than is actually pulled, which is the intended behavior (authorization for the worst case, execution of the actual case).</p>
+<h3 id="recommendation">Recommendation</h3>
+<p>Document this behavior clearly for the incentive provider's reconciliation systems.</p>
+<hr>
+<h2 id="l-03-paymentrecord-storage-growth-is-unbounded">[L-03] PaymentRecord Storage Growth Is Unbounded</h2>
+<p><strong>Severity</strong>: <span class="badge badge-low">Low</span> <strong>Category</strong>: Denial of Service / Gas</p>
+<h3 id="description">Description</h3>
+<p>The <code class="inline">_paymentRecords</code> mapping grows monotonically with each payment. Additionally, <code class="inline">_refundNonceUsed</code> adds a second mapping that grows with each refund. Solidity mappings do not have size limits, but the accumulated state increases the chain's state bloat.</p>
+<h3 id="impact">Impact</h3>
+<p>No functional impact. State bloat is a concern for the broader chain ecosystem but does not affect this contract's operation. Gas costs for reads and writes to mappings are O(1) regardless of mapping size.</p>
+<h3 id="recommendation">Recommendation</h3>
+<p><span class="badge badge-info">Informational</span> only. No action needed for the contract itself. Consider whether old payment records should eventually be prunable (this would require changing the design to allow it).</p>
+<hr>
+<h2 id="l-04-solana-memo-only-payment-id-tracking-has-no-replay-protection">[L-04] Solana Memo-Only Payment ID Tracking Has No Replay Protection</h2>
+<p><strong>Severity</strong>: <span class="badge badge-low">Low</span> <strong>Category</strong>: Replay / Solana</p>
+<h3 id="description">Description</h3>
+<p>On Solana, payment ID tracking is recorded via the Memo Program instruction. The Memo instruction simply writes data to the transaction log; it does not maintain any onchain state. This means:</p>
+<ol>
+<li>There is no onchain way to check if a payment ID has already been used.</li>
+<li>Duplicate payment IDs can be recorded in different transactions without any onchain revert.</li>
+<li>Replay detection is entirely an offchain responsibility.</li>
+</ol>
+<h3 id="impact">Impact</h3>
+<p>While Solana transaction signatures are unique (preventing literal replay of the same transaction), nothing prevents the attester from constructing a <strong>new</strong> transaction with the <strong>same</strong> payment ID but different amounts or recipients. The Memo instruction will happily record the same payment ID twice.</p>
+<h3 id="recommendation">Recommendation</h3>
+<ol>
+<li>If replay protection is critical for Solana, implement it via a PDA-based state account that tracks used payment IDs.</li>
+<li>At minimum, implement robust offchain duplicate detection with alerting.</li>
+</ol>
+<hr>
+<h2 id="i-01-missing-from-to-check-in-paymentintent">[I-01] Missing from == to Check in PaymentIntent</h2>
+<p><strong>Severity</strong>: <span class="badge badge-info">Informational</span> <strong>Category</strong>: Edge Case</p>
+<h3 id="description">Description</h3>
+<p>There is no check preventing <code class="inline">intent.from == intent.to</code>. If the payer and payee are the same address, the settlement would pull tokens from the payer and then send <code class="inline">payeeSettlementAmount</code> back to the same address, with the fee going to the beneficiary. This effectively implements a fee-extraction-only flow.</p>
+<h3 id="impact">Impact</h3>
+<p>No direct security impact beyond fee extraction from a consenting party (they signed the Permit2 authorization). However, it represents an unusual state that may indicate a misconfiguration.</p>
+<h3 id="recommendation">Recommendation</h3>
+<p>Consider adding <code class="inline">require(intent.from != intent.to, "self-payment")</code> unless there is a legitimate business case for self-payments.</p>
+<hr>
+<h2 id="i-02-non-upgradeable-contract-limits-future-remediation-options">[I-02] Non-Upgradeable Contract Limits Future Remediation Options</h2>
+<p><strong>Severity</strong>: <span class="badge badge-info">Informational</span> <strong>Category</strong>: Architecture</p>
+<h3 id="description">Description</h3>
+<p>The contract is explicitly non-upgradeable by design. If a critical vulnerability is discovered post-deployment, the only remediation is:</p>
+<ol>
+<li>Pause the contract (Pausable).</li>
+<li>Rescue any stuck tokens (Rescuable).</li>
+<li>Deploy a new contract.</li>
+<li>Migrate all OFI integrations to the new contract address.</li>
+</ol>
+<p>The design document outlines this approach: "Since we have the relayer wallet, we are able to upgrade by switching contract instead of directly upgrade onchain."</p>
+<h3 id="impact">Impact</h3>
+<p>The migration process requires OFI coordination and introduces a window where payments may be disrupted. However, the Pausable mechanism provides an emergency stop, and the relayer-controlled execution model means CPN can unilaterally halt operations immediately.</p>
+<h3 id="recommendation">Recommendation</h3>
+<p>This is a well-considered design choice. Ensure the migration plan includes:</p>
+<ol>
+<li>Automated alerts for vulnerability discovery.</li>
+<li>A pre-tested deployment pipeline for rapid redeployment.</li>
+<li>OFI communication templates and rollover procedures.</li>
+<li>Consideration of a "migration mode" where both old and new contracts are active with the relayer directing traffic to the new contract.</li>
+</ol>
+<hr>
+<h2 id="i-03-totalsourceamount-overflow-in-refund-loop-is-theoretically-possible">[I-03] totalSourceAmount Overflow in Refund Loop Is Theoretically Possible</h2>
+<p><strong>Severity</strong>: <span class="badge badge-info">Informational</span> <strong>Category</strong>: Arithmetic</p>
+<h3 id="description">Description</h3>
+<p>In <code class="inline">_validateAndExecuteRefund</code>, the loop accumulates <code class="inline">totalSourceAmount += sources[i].permit.permitted.amount</code>. If the number of sources is large and the amounts are near <code class="inline">uint256.max</code>, this could theoretically overflow.</p>
+<p>In practice:</p>
+<ol>
+<li>Solidity 0.8+ reverts on overflow.</li>
+<li>USDC/EURC have 6 decimals, and the maximum USDC supply is approximately 40 billion (4e16 in smallest units), well within uint256 bounds.</li>
+<li>The number of sources is small (typically 1-2).</li>
+</ol>
+<h3 id="impact">Impact</h3>
+<p>No practical impact. The Solidity 0.8+ automatic overflow check will revert if this ever occurs.</p>
+<h3 id="recommendation">Recommendation</h3>
+<p>No action needed. The natural overflow protection is sufficient.</p>
+<hr>
+<h2 id="i-04-event-emission-ordering-relative-to-state-changes">[I-04] Event Emission Ordering Relative to State Changes</h2>
+<p><strong>Severity</strong>: <span class="badge badge-info">Informational</span> <strong>Category</strong>: Best Practice</p>
+<h3 id="description">Description</h3>
+<p>In the <code class="inline">execute()</code> pseudocode, the <code class="inline">NonceUsed</code> event is emitted during <code class="inline">_validateAndMarkNonce()</code> (line 5), which occurs before the fund pulls and distributions (lines 56-95). If the transaction reverts during fund pulls or distributions, the event is not emitted (atomic revert).</p>
+<p>However, the <code class="inline">PayeeVerified</code> event (line 51) is emitted before fund pulls. If an external monitoring system observes <code class="inline">PayeeVerified</code> and interprets it as "payment complete," it would be incorrect -- the payment could still revert during fund pulls.</p>
+<h3 id="impact">Impact</h3>
+<p>No onchain impact (events are rolled back on revert). Only affects offchain systems that monitor events from pending (non-finalized) transactions.</p>
+<h3 id="recommendation">Recommendation</h3>
+<p>Document that events should only be considered final after sufficient block confirmations. This is already noted in the design document for <code class="inline">NonceUsed</code>.</p>
+<hr>
+<h2 id="executive-summary">Executive Summary</h2>
+<h3 id="overall-risk-assessment">Overall Risk Assessment</h3>
+<p>The CPN Onchain Settlement with Pricing Engine Enablement design represents a carefully considered extension of an existing payment settlement system. The design team has made explicit, documented tradeoffs between security, usability, and pricing confidentiality. However, several of these tradeoffs create significant security risks that warrant careful attention before production deployment.</p>
+<p><strong>Overall Risk Level: MODERATE-HIGH</strong></p>
+<p>The system's security posture is strongly dependent on the integrity of the attester (CPN Relayer) key and backend software. The onchain contracts provide meaningful but incomplete protection: they enforce atomicity, signature verification, and amount invariants on EVM, but delegate critical trust assumptions (pricing correctness, refund amount reasonableness, and entire Solana correctness) to the offchain layer.</p>
+<h3 id="top-3-most-critical-issues">Top 3 Most Critical Issues</h3>
+<ol>
+<li><strong>[C-01] Solana: No Onchain Validation</strong> -- The absence of a custom Solana program means there is zero onchain enforcement of payment correctness, replay protection, or amount invariants on the highest-volume chain (21,547 transactions in 3 months, 85% of total volume). A compromised attester or backend bug can divert, replay, or manipulate any Solana payment with no onchain evidence of wrongdoing. This is the single most important finding in this audit.</li>
+</ol>
+<ol>
+<li><strong>[H-01] Compromised Attester Blast Radius</strong> -- The attester key is a single point of failure across both EVM and Solana. On EVM, a compromised attester can under-pay BFIs (when <code class="inline">requirePayeeSign == false</code>), manipulate fee amounts, and drain the CPN Incentive Wallet through crafted incentive payments. The attester's ability to set the <code class="inline">beneficiary</code>, <code class="inline">fee</code>, <code class="inline">payeeSettlementAmount</code>, and <code class="inline">RefundSource[]</code> without any second-party verification makes it the most powerful role in the system.</li>
+</ol>
+<ol>
+<li><strong>[H-04] No Onchain Ceiling on Refund Amounts</strong> -- The refund function has no relationship between refund amounts and original payment amounts. Combined with the opaque <code class="inline">RefundSource[]</code> array [H-03], a compromised attester can use the refund mechanism to transfer arbitrary amounts to any historical payer, limited only by available source wallet balances.</li>
+</ol>
+<h3 id="recommendations-for-external-audit-scope">Recommendations for External Audit Scope</h3>
+<p>The upcoming external audit (planned for late February 2026) should prioritize the following areas:</p>
+<ol>
+<li><strong>EVM Contract Focus Areas</strong>:</li>
+</ol>
+<ul>
+<li><code class="inline">execute()</code> function: All fund flow paths (standard, incentive, arbitrage), especially the interaction between <code class="inline">payerPullAmount</code>, <code class="inline">shortfall</code>, <code class="inline">fee</code>, and <code class="inline">payeeSettlementAmount</code>.</li>
+<li><code class="inline">refund()</code> function: Signature verification for both per-party refund intents, balance invariant enforcement, and the trust boundary between signed data and attester-controlled data.</li>
+<li>Permit2 integration: Witness hash construction for all three parties (payer, payee, incentive provider), nonce handling, and cross-domain binding.</li>
+<li>ReentrancyGuard effectiveness across the <code class="inline">safeTransfer</code> calls.</li>
+</ul>
+<ol>
+<li><strong>Rebalance Contract</strong>: Treat as a <strong>separate, high-risk audit target</strong>. Its general-purpose fund-routing capability with attester-only access control makes it a high-value target. Verify that the balance invariant cannot be bypassed and that source wallet permits cannot be reused.</li>
+</ol>
+<ol>
+<li><strong>Solana Architecture</strong>: While there is no onchain code to audit, the external auditor should:</li>
+</ol>
+<ul>
+<li>Review the transaction construction logic in the backend for correctness.</li>
+<li>Verify that OFI signing flow actually allows OFIs to inspect instruction amounts.</li>
+<li>Assess the operational security of the CPN Incentive Wallet and CPN Operational Wallet key management.</li>
+<li>Evaluate replay protection mechanisms (or lack thereof).</li>
+</ul>
+<ol>
+<li><strong>Key Management and Operational Security</strong>:</li>
+</ol>
+<ul>
+<li>Attester key management via Core Custody MPC KMS -- verify the signing policy, key rotation procedures, and monitoring.</li>
+<li>CPN Incentive Wallet signing configuration on Solana (co-signs every transaction).</li>
+<li>Emergency procedures: Pause mechanism testing, rescue function access, and attester removal procedures.</li>
+</ul>
+<ol>
+<li><strong>Edge Cases to Fuzz</strong>:</li>
+</ol>
+<ul>
+<li>Zero amounts for all uint256 fields.</li>
+<li><code class="inline">payerAuthorizedAmount == maxFee</code> (zero settlement).</li>
+<li><code class="inline">fee == 0</code> (zero fee).</li>
+<li><code class="inline">fee == maxFee</code> (maximum fee).</li>
+<li>Identical addresses for from/to/beneficiary in various combinations.</li>
+<li>Maximum uint256 values for amount fields.</li>
+<li>Empty and single-element <code class="inline">RefundSource[]</code> and <code class="inline">RebalanceDistribution[]</code> arrays.</li>
+<li>Incentive case where <code class="inline">payerAuthorizedAmount</code> is exactly 1 wei less than <code class="inline">payeeSettlementAmount + maxFee</code>.</li>
+</ul>
+<hr>
+<p><em>This report is based on a design-level review of pseudocode and architecture documentation. Findings may need to be re-evaluated against the actual Solidity implementation. A full code audit against the implemented contracts is strongly recommended before production deployment.</em></p>
+
+    </div>
+</section>
+
+<section id="architect-review" class="card report-section">
+    <h2 class="section-title">Architecture Review</h2>
+    <div class="section-content">
+        <h1 id="architecture-review-cpn-onchain-settlement-with-pricing-engine-enablement">Architecture Review: CPN Onchain Settlement with Pricing Engine Enablement</h1>
+<p><strong>Review Date:</strong> 2026-02-20 <strong>Document Version:</strong> In Review (as of 2026-02-20) <strong>Reviewer Role:</strong> Master Software Architect -- Blockchain, Smart Contract Design, Cross-Chain Systems, Financial Settlement <strong>Authors:</strong> @Gary Chen, @Giles Chang, @Vincent Huang <strong>Target Code Complete:</strong> March 25, 2026</p>
+<hr>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This design extends Circle's CPN PaymentSettlement contract to support the Pricing Engine's dual-pricing model (OFI Price vs BFI Price), introducing incentive subsidies, arbitrage capture, and split refunds across EVM and Solana. The architecture is fundamentally sound for the stated requirements. The team has made thoughtful tradeoffs between trust minimization and operational flexibility, and the document is unusually thorough in its treatment of signing semantics, fund flow invariants, and cross-chain differences.</p>
+<p>However, there are several areas requiring attention before production deployment, most critically around the trust concentration in the attester/relayer, the asymmetric security guarantees between EVM and Solana, the absent onchain enforcement on Solana, and specific gaps in the refund function's CEI compliance.</p>
+<p><strong>Overall Verdict: Approve with Changes</strong> (see Section 8 for details).</p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-architecture-soundness">Architecture Soundness</a></li>
+<li><a href="#2-design-pattern-analysis">Design Pattern Analysis</a></li>
+<li><a href="#3-scalability--performance">Scalability & Performance</a></li>
+<li><a href="#4-failure-mode-analysis">Failure Mode Analysis</a></li>
+<li><a href="#5-cross-chain-consistency">Cross-Chain Consistency</a></li>
+<li><a href="#6-extensibility--maintainability">Extensibility & Maintainability</a></li>
+<li><a href="#7-operational-readiness">Operational Readiness</a></li>
+<li><a href="#8-overall-verdict--summary">Overall Verdict & Summary</a></li>
+</ol>
+<hr>
+<h2 id="1-architecture-soundness">1. Architecture Soundness</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong>Well-structured extension of an existing, proven contract.</strong> The design builds incrementally on the current PaymentSettlement contract rather than rebuilding from scratch. The unchanged elements (Permit2 integration, attester whitelist, Ownable2Step, Pausable, Rescuable, ReentrancyGuard) are battle-tested and appropriate for a payment settlement system. This is a low-risk way to add significant new capability.</p>
+<p><strong>Appropriate abstractions.</strong> The four core data structures are well-chosen:</p>
+<ul>
+<li><code class="inline">PaymentIntent</code> correctly separates <code class="inline">payerAuthorizedAmount</code> (OFI perspective) from <code class="inline">payeeSettlementAmount</code> (BFI perspective), making the dual-pricing model explicit in the contract's type system.</li>
+<li><code class="inline">IncentiveData</code> cleanly encapsulates the optional incentive flow as a separate Permit2 authorization, avoiding the need to modify the payer's signing flow.</li>
+<li><code class="inline">RefundIntent</code> with separate <code class="inline">PayerRefundIntent</code> and <code class="inline">IncentiveProviderRefundIntent</code> types provides per-party amount privacy while maintaining a single atomic operation.</li>
+<li><code class="inline">RebalanceIntent</code> is appropriately minimal for its role as a general-purpose fund movement primitive.</li>
+</ul>
+<p><strong>The PSC Refund / Rebalance Contract separation is well-justified.</strong> The two mechanisms have fundamentally different trust models:</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>PSC Refund</th>
+<th>Rebalance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization</td>
+<td>Multi-party signed (OFI + Incentive Provider)</td>
+<td>Attester-only</td>
+</tr>
+<tr>
+<td>Trust boundary</td>
+<td>Each party validates own amount</td>
+<td>Full trust in attester</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Tied to specific payment nonce</td>
+<td>No payment linkage</td>
+</tr>
+<tr>
+<td>Audit posture</td>
+<td>Part of PSC audit</td>
+<td>Independent audit</td>
+</tr>
+</tbody>
+</table></div>
+<p>This separation means auditors reviewing the PSC only see the multi-party consent model, while the Rebalance contract's broader powers are independently scoped. This is the right decision for audit clarity and for allowing different rollout timelines (Rebalance active at launch, PSC Refund initially inactive).</p>
+<p><strong>The non-upgradeable + contract-switching strategy is appropriate for a payment settlement system.</strong> The design correctly identifies that upgradeable proxies introduce an attack surface (proxy admin compromise, storage collision risks, uninitialized implementation exploitation). For a system handling real payment flows with USDC, the conservative choice of non-upgradeable contracts with a managed migration path via attester re-pointing is defensible. The rollout plan (deploy new contract, support both during transition, deprecate old) is a proven pattern used by Circle for USDC itself.</p>
+<p><strong>Fund sufficiency invariant is clearly stated and enforced.</strong> The core invariant <code class="inline">payerAuthorizedAmount + incentive.permitted.amount == payeeSettlementAmount + maxFee</code> is enforced onchain with explicit revert conditions. The document traces this invariant through all three flow types (standard, arbitrage, incentive) with concrete numeric examples, which is excellent for auditor comprehension.</p>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C1-HIGH] The <code class="inline">value</code> field semantics have changed subtly but the document underplays this.</strong> In the legacy contract, <code class="inline">value</code> equaled the BFI Price because OFI Price == BFI Price. In the new contract, <code class="inline">value</code> in the payer's witness data represents "the amount that must be sent to BFI from OFI" which, in incentive cases, is less than the BFI settlement amount. The document states "The definition remains unchanged, but we would like to clarify it here," but this is incorrect -- the <em>definition</em> has changed because <code class="inline">value</code> no longer represents the full amount the BFI receives. This semantic shift could confuse OFIs during integration. Recommend renaming this field (e.g., <code class="inline">payerContribution</code>) or adding explicit integration guidance explaining the behavioral change.</p>
+<p><strong>[C2-MEDIUM] The <code class="inline">PaymentRecord</code> struct stores only payer and incentiveProvider but not amounts.</strong> The stored <code class="inline">PaymentRecord { address payer; address incentiveProvider; }</code> lacks the original <code class="inline">payerAuthorizedAmount</code>, <code class="inline">payeeSettlementAmount</code>, and <code class="inline">maxFee</code>. During refund, the contract cannot verify that <code class="inline">payerRefundAmount + incentiveProviderRefundAmount</code> is bounded by the original settlement amounts. The document acknowledges "No Amount Ceiling" as a design choice, noting that partial refunds with FX/gas deductions are common. While this is pragmatic, it means the contract cannot prevent a malicious or buggy attester from constructing a refund that exceeds the original payment amounts. The per-party signatures provide some protection (each party signs their own expected refund amount), but the attester controls the <code class="inline">RefundSource[]</code> array and could over-fund a refund from CPN-controlled wallets.</p>
+<p><strong>[C3-LOW] The balance invariant in <code class="inline">_validateAndExecuteRefund</code> checks <code class="inline">totalSourceAmount == totalDistAmount</code> but does not prevent the attester from pulling more from sources than needed.</strong> The balance invariant ensures sources equal distributions, but the attester can choose arbitrary source wallets and amounts as long as they sum correctly. This is by design (operational flexibility), but it means the contract provides no guarantee about <em>where</em> refund funds come from, only that <em>how much</em> goes in equals <em>how much</em> goes out.</p>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R1]</strong> Rename the <code class="inline">value</code> field in the payer's witness data to avoid confusion with the legacy semantics, or at minimum produce an OFI integration migration guide that explicitly calls out this behavioral change with before/after examples.</li>
+</ol>
+<ol>
+<li><strong>[R2]</strong> Consider storing at least <code class="inline">payeeSettlementAmount</code> in the <code class="inline">PaymentRecord</code> so the refund function can enforce <code class="inline">payerRefundAmount + incentiveProviderRefundAmount <= originalPayeeSettlementAmount + originalMaxFee</code>. This provides an upper bound without breaking partial refund flexibility.</li>
+</ol>
+<ol>
+<li><strong>[R3]</strong> Add an explicit onchain cap parameter to the <code class="inline">refund()</code> function (or derive it from stored state) to bound refund magnitudes per payment.</li>
+</ol>
+<hr>
+<h2 id="2-design-pattern-analysis">2. Design Pattern Analysis</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong>Composition over inheritance is well-applied.</strong> The contract inherits from OpenZeppelin's Ownable2Step, Pausable, Rescuable, and ReentrancyGuard as composable mixins. Custom behaviors (Attestable, Configurable) are layered separately. This is clean and follows established Solidity patterns.</p>
+<p><strong>Trust model clarity is strong for EVM.</strong> The document provides an explicit table of what each signer CAN and CANNOT validate, which is rare and valuable:</p>
+<ul>
+<li>OFI signs <code class="inline">payerAuthorizedAmount</code> and <code class="inline">maxFee</code> but cannot see <code class="inline">payeeSettlementAmount</code></li>
+<li>BFI (optionally) signs <code class="inline">payeeSettlementAmount</code> but cannot see <code class="inline">payerAuthorizedAmount</code></li>
+<li>Incentive Provider signs all three amounts (correctly, since CPN controls this wallet)</li>
+</ul>
+<p>The explicit acknowledgment that hiding BFI Price from OFI creates residual risk (requiring compensating controls) is commendable.</p>
+<p><strong>CEI (Checks-Effects-Interactions) adherence in <code class="inline">execute()</code>.</strong> The pseudocode follows CEI correctly:</p>
+<ol>
+<li><strong>Checks</strong>: Attester validation, time window, fee ceiling, token consistency, permit amount matching, fund sufficiency, payee signature</li>
+<li><strong>Effects</strong>: Nonce marking via <code class="inline">_validateAndMarkNonce</code></li>
+<li><strong>Interactions</strong>: Fund pulls (via Permit2) followed by fund distributions (via safeTransfer)</li>
+</ol>
+<p>This is textbook correct -- the nonce is marked <em>before</em> any external calls, preventing replay through reentrancy.</p>
+<p><strong>Pull pattern is correctly applied.</strong> The contract pulls funds from payers and incentive providers via Permit2 (which verifies signatures and transfers atomically), then pushes distributions to BFI and beneficiary via <code class="inline">safeTransfer</code>. This avoids the classic "push payment" vulnerability where recipients can block transactions.</p>
+<p><strong>EIP-712 typed data usage is architecturally correct.</strong> The design uses:</p>
+<ul>
+<li>Permit2's <code class="inline">PermitWitnessTransferFrom</code> for both payer and incentive provider (leveraging Uniswap's battle-tested signature verification)</li>
+<li>Custom EIP-712 domain (<code class="inline">PaymentSettlement</code>) for payee signatures and refund signatures</li>
+<li>Separate typed structs for payer refund vs. incentive provider refund (providing per-party amount privacy)</li>
+</ul>
+<p>The witness data correctly binds to payment-scoped fields (nonce, from, to, amounts), preventing signature reuse across different payments.</p>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C4-HIGH] CEI violation in <code class="inline">_validateAndExecuteRefund</code>.</strong> The refund pseudocode shows this sequence:</p>
+<pre><code class="language-">// Line 84: Mark refund as processed
+_refundNonceUsed[intent.paymentNonce] = true;
+
+// Line 87-89: Pull from sources (EXTERNAL CALLS)
+for (uint256 i = 0; i &lt; sourcesLen; i++) {
+    _pullRefundSource(sources[i], intent.token);
+}
+
+// Line 92-93: Distribute to original payer (EXTERNAL CALL)
+IERC20(intent.token).safeTransfer(record.payer, intent.payerRefundAmount);
+
+// Line 97-98: Distribute to incentive provider (EXTERNAL CALL)
+IERC20(intent.token).safeTransfer(record.incentiveProvider, ...);</code></pre>
+<p>The nonce is correctly marked before external calls (good). However, the function performs multiple external calls in sequence (pulls then distributions). While ReentrancyGuard protects against re-entering <code class="inline">refund()</code> itself, a malicious ERC-20 token (if the token list is ever expanded beyond USDC) could exploit the interleaved external calls. Since USDC is a trusted token, this is low risk today, but the architecture should not rely on token trustworthiness as an invariant.</p>
+<p><strong>[C5-MEDIUM] The Rebalance contract's <code class="inline">rebalance()</code> function interleaves pulls and distributions without CEI separation.</strong> The pseudocode shows:</p>
+<pre><code class="language-">// Pull all sources
+for (uint256 i; i &lt; srcLen; i++) { _pullSource(token, sources[i]); }
+// Distribute all
+for (uint256 i; i &lt; distLen; i++) { token.safeTransfer(...); }</code></pre>
+<p>This is acceptable (pulls complete before distributions begin), but a subtle issue exists: if any source pull fails (insufficient balance, revoked approval), the entire transaction reverts after potentially having already pulled from earlier sources. Since all operations are within a single transaction, this is atomically safe, but it means a single failed source can block the entire rebalance.</p>
+<p><strong>[C6-MEDIUM] EIP-712 domain separation between PSC and Rebalance contracts.</strong> The document does not explicitly state whether the Rebalance contract uses its own EIP-712 domain separator. Since the Rebalance contract uses <code class="inline">RebalanceSource</code> (which contains <code class="inline">PermitTransferFrom</code> permits), the Permit2 verification already binds to the specific spender contract address. However, if the Rebalance contract shares any custom EIP-712 types with the PSC, cross-contract signature replay could be possible. The document should explicitly state that each contract has its own domain separator.</p>
+<p><strong>[C7-LOW] Optional BFI signature creates a two-tier security model.</strong> The <code class="inline">requirePayeeSign</code> flag means some payments have BFI attestation and some do not. This is acknowledged as a tradeoff, but the document does not discuss whether the flag can be changed per-payment or is set at contract initialization. If it is per-payment (set by the attester), then a compromised attester could disable BFI signing for payments that previously had it enabled. Clarify whether this flag is in the <code class="inline">PaymentIntent</code> (per-payment, controlled by attester) or a contract-level configuration.</p>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R4]</strong> Consider restructuring <code class="inline">_validateAndExecuteRefund</code> to complete all pulls into the contract first, then perform all distributions, with the nonce mark between checks and the first external call (which is already done correctly). Document this pattern explicitly in code comments for auditor clarity.</li>
+</ol>
+<ol>
+<li><strong>[R5]</strong> Explicitly document EIP-712 domain separation strategy for all contracts in the system (PSC, Rebalance, and any future contracts).</li>
+</ol>
+<ol>
+<li><strong>[R6]</strong> Clarify whether <code class="inline">requirePayeeSign</code> is per-payment or per-contract. If per-payment, document the compensating controls for when a compromised attester flips it to <code class="inline">false</code>.</li>
+</ol>
+<hr>
+<h2 id="3-scalability-performance">3. Scalability & Performance</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong><code class="inline">execute()</code> is O(1) and gas-efficient.</strong> The payment function performs a fixed number of operations regardless of system load: 1-2 signature verifications, 1-2 Permit2 pulls, and 2 distributions. This is optimal for a payment settlement function.</p>
+<p><strong>Current traffic is well within capacity.</strong> With peak 5 QPS on Solana and essentially negligible QPS on EVM chains, the system has orders of magnitude of headroom:</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Chain</th>
+<th>Max QPS (1s burst)</th>
+<th>Chain Capacity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ETH</td>
+<td>1</td>
+<td>~15 TPS</td>
+</tr>
+<tr>
+<td>MATIC</td>
+<td>4</td>
+<td>~30 TPS</td>
+</tr>
+<tr>
+<td>SOL</td>
+<td>5</td>
+<td>~1,000-4,000 TPS</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Gas cost increase is reasonable.</strong> The ~60,000 additional gas for incentive cases and ~10,000 for arbitrage cases are modest additions. At current Ethereum gas prices (~20 gwei), the incentive case adds approximately $1-3 in gas cost, which is absorbed by CPN fees.</p>
+<p><strong>The Solana write lock contention issue is correctly identified.</strong> The document acknowledges that all CPN transactions sharing a single beneficiary ATA serializes Solana execution. This is the primary scalability bottleneck and the team has identified mitigations (multiple beneficiary wallets, relayer pool expansion).</p>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C8-MEDIUM] O(n) refund with unbounded n in theory.</strong> The document states "the contract enforces an onchain cap on the number of sources and distributions to bound gas usage," but the pseudocode does not show this cap. The <code class="inline">RefundSource[]</code> and distribution logic iterate over arrays without explicit length checks beyond <code class="inline">sources.length == 0</code>. While the document states n is "typically 1-2," an attester could submit a refund with many sources, potentially hitting the block gas limit.</p>
+<p><strong>[C9-MEDIUM] Solana CPN Incentive Wallet as routing bottleneck.</strong> All Solana forward flows route through the CPN Incentive Wallet: <code class="inline">Payer -> CPN Incentive Wallet -> Payee + CPN Beneficiary</code>. This means every settlement transaction writes to the CPN Incentive Wallet's ATA, creating write lock contention on <em>two</em> shared accounts (CPN Incentive Wallet ATA and CPN Beneficiary ATA). As volume grows, this will serialize all CPN transactions on Solana regardless of how many relayer wallets are deployed.</p>
+<p><strong>[C10-LOW] Gas cost benchmarks are TBD.</strong> The design states "full gas cost benchmarks are TBD -- we will provide numbers after the contract is developed." For a financial settlement system, gas costs directly impact fee calculations shown to OFIs. Gas profiling should be a blocking requirement before production deployment, not a post-hoc measurement.</p>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R7]</strong> Add an explicit <code class="inline">MAX_REFUND_SOURCES</code> constant to the contract (suggest 5) and enforce it at the top of <code class="inline">refund()</code> and <code class="inline">_validateAndExecuteRefund()</code>. Similarly add <code class="inline">MAX_REBALANCE_SOURCES</code> and <code class="inline">MAX_REBALANCE_DISTRIBUTIONS</code> to the Rebalance contract.</li>
+</ol>
+<ol>
+<li><strong>[R8]</strong> For Solana scalability, plan for a CPN Incentive Wallet pool (similar to the relayer wallet pool). Document the selection strategy and how it interacts with incentive wallet pre-funding requirements.</li>
+</ol>
+<ol>
+<li><strong>[R9]</strong> Complete gas profiling before production deployment. Include gas benchmarks in the CI pipeline as regression tests (e.g., <code class="inline">forge snapshot</code> comparison).</li>
+</ol>
+<hr>
+<h2 id="4-failure-mode-analysis">4. Failure Mode Analysis</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong>The pause/rescue/attester-removal controls provide layered emergency response:</strong></p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Response</th>
+<th>Actor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contract vulnerability</td>
+<td><code class="inline">pause()</code></td>
+<td>Pauser (hot key)</td>
+</tr>
+<tr>
+<td>Stuck tokens</td>
+<td><code class="inline">rescueERC20()</code></td>
+<td>Rescuer</td>
+</tr>
+<tr>
+<td>Attester compromise</td>
+<td><code class="inline">removeAttester()</code></td>
+<td>Configurator</td>
+</tr>
+<tr>
+<td>Full compromise</td>
+<td>Transfer ownership</td>
+<td>Owner (cold storage)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ownership is correctly distributed across hot and cold keys.</strong> The owner (cold storage) controls ownership transfer and critical configuration, while operational roles (pauser, rescuer, configurator) use hot keys for rapid response. The two-step ownership transfer (Ownable2Step) prevents accidental ownership loss.</p>
+<p><strong>Nonce-based replay protection is comprehensive.</strong> The contract uses <code class="inline">_paymentRecords[nonce]</code> for payment tracking and <code class="inline">_refundNonceUsed[nonce]</code> for refund replay protection, with separate nonce spaces for the Rebalance contract. This prevents all standard replay attack vectors.</p>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C11-CRITICAL] Attester compromise is the single highest-impact failure mode and mitigations are underspecified.</strong> A compromised attester (CPN Relayer with MPC KMS keys) can:</p>
+<ol>
+<li><strong>Construct fraudulent payments</strong>: Submit <code class="inline">execute()</code> with arbitrary <code class="inline">payeeSettlementAmount</code> values. If BFI signing is disabled (<code class="inline">requirePayeeSign == false</code>), the attester controls the entire payment intent including how much the BFI receives.</li>
+<li><strong>Drain the CPN Incentive Wallet</strong>: Construct incentive payments where the shortfall is maximized, pulling maximum amounts from the CPN Incentive Wallet for each payment.</li>
+<li><strong>Execute fraudulent refunds via the Rebalance contract</strong>: Since the Rebalance contract is attester-only with no external party signatures, a compromised attester can move funds between any CPN-controlled wallets arbitrarily.</li>
+<li><strong>Cannot drain OFI funds beyond authorized amounts</strong> (bounded by Permit2 signatures and OFI-authorized <code class="inline">payerAuthorizedAmount</code>). This is a critical safety property.</li>
+</ol>
+<p>The document acknowledges this risk in the Priorities and Tradeoffs section ("a compromised or malicious relayer could reduce or omit the BFI payout and divert value to the beneficiary"), but the compensating controls are not specified. The document says "Product, Legal and Compliance must explicitly accept this residual risk" but does not specify what technical controls exist.</p>
+<p><strong>[C12-HIGH] CPN Incentive Wallet depletion has no onchain circuit breaker.</strong> If the CPN Incentive Wallet is drained (whether through legitimate high-subsidy usage, compromise, or a bug in the Pricing Engine), all incentive payments will fail. There is no onchain mechanism to:</p>
+<ul>
+<li>Limit per-transaction incentive pull amounts</li>
+<li>Limit daily/hourly incentive disbursement</li>
+<li>Alert when the wallet balance drops below a threshold</li>
+</ul>
+<p>The Pricing Engine controls incentive amounts offchain, but the contract trusts whatever amount is in the Permit2 signature. A Pricing Engine bug could authorize excessive incentives.</p>
+<p><strong>[C13-HIGH] If Permit2 is compromised, the impact is not contract-specific.</strong> A Permit2 vulnerability would affect the entire Ethereum ecosystem, not just CPN. However, the design should document the specific CPN impact: since the PSC is the <code class="inline">spender</code> for both payer and incentive provider permits, a Permit2 compromise could allow an attacker to forge permit signatures, bypassing payer authorization entirely. The mitigation is the same as for the broader ecosystem (Permit2 is extensively audited and battle-tested), but the risk should be explicitly documented.</p>
+<p><strong>[C14-MEDIUM] Recovery from non-upgradeable contract vulnerability.</strong> The document's recovery plan is "deploy new contract, re-point attesters, deprecate old." This is correct but incomplete. During the transition period:</p>
+<ul>
+<li>What happens to in-flight payments (signed permits that reference the old contract address)?</li>
+<li>Are old permits automatically invalid for the new contract (yes, since <code class="inline">spender</code> is contract-specific)?</li>
+<li>How long is the dual-operation period?</li>
+<li>What is the process for draining any residual tokens from the old contract?</li>
+</ul>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R10] BLOCKING: Define specific compensating controls for attester compromise.</strong> At minimum:</li>
+</ol>
+<ul>
+<li>Rate limiting on the attester service (max payments per minute per OFI/BFI pair)</li>
+<li>Anomaly detection on payment amounts (flag settlements where <code class="inline">payeeSettlementAmount</code> deviates significantly from <code class="inline">payerAuthorizedAmount</code>)</li>
+<li>Multi-attester approval for payments above a configurable threshold</li>
+<li>Real-time monitoring dashboard for CPN Incentive Wallet balance</li>
+<li>Documented incident response playbook for attester key compromise (pause contract, rotate keys, assess damage)</li>
+</ul>
+<ol>
+<li><strong>[R11]</strong> Implement an onchain incentive pull ceiling (either per-transaction or cumulative daily) in the PSC contract. Alternatively, implement it as an offchain circuit breaker in the Pricing Engine with documented SLA for detection and response.</li>
+</ol>
+<ol>
+<li><strong>[R12]</strong> Document the complete contract migration playbook, including handling of in-flight permits, the dual-operation timeline, and the process for draining the old contract via the Rescuer role.</li>
+</ol>
+<ol>
+<li><strong>[R13]</strong> Add Permit2 compromise to the explicit risk registry with documented blast radius and response plan.</li>
+</ol>
+<hr>
+<h2 id="5-cross-chain-consistency">5. Cross-Chain Consistency</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong>The fundamental settlement guarantees are preserved across chains.</strong> Both EVM and Solana achieve:</p>
+<ul>
+<li>Atomic settlement (all-or-nothing fund movement)</li>
+<li>Correct fund distribution (BFI receives BFI Price, CPN receives fees + arbitrage)</li>
+<li>OFI authorization (Permit2 signature on EVM, transaction co-signing on Solana)</li>
+</ul>
+<p><strong>The Solana design is pragmatic.</strong> Using composable native instructions instead of a custom Solana program avoids the complexity of developing, auditing, and maintaining a Solana program (which requires Rust expertise and has a different security model). For the current traffic levels (peak 5 QPS), this is a defensible choice.</p>
+<p><strong>The design decision to route through CPN Incentive Wallet on Solana is well-documented.</strong> The alternative (direct payer-to-payee transfers) was evaluated and rejected with clear reasoning. The chosen design provides consistent instruction format across incentive and arbitrage cases, which simplifies OFI integration.</p>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C15-CRITICAL] EVM vs. Solana trust model asymmetry is a material gap.</strong> This is the most architecturally significant concern in the design:</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>EVM</th>
+<th>Solana</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nonce enforcement</td>
+<td>Onchain (contract state)</td>
+<td>Offchain (backend)</td>
+</tr>
+<tr>
+<td>Time window validation</td>
+<td>Onchain</td>
+<td>None (implicit via <code class="inline">recentBlockhash</code>)</td>
+</tr>
+<tr>
+<td>Amount invariant enforcement</td>
+<td>Onchain (<code class="inline">payerAuth + incentive == settlement + maxFee</code>)</td>
+<td>None -- amounts in instructions are attester-constructed</td>
+</tr>
+<tr>
+<td>Replay protection</td>
+<td>Onchain (nonce mapping)</td>
+<td>Offchain (backend deduplication, <code class="inline">recentBlockhash</code> TTL ~60-90s)</td>
+</tr>
+<tr>
+<td>BFI price hiding</td>
+<td>Yes (not in OFI's signed data)</td>
+<td><strong>No</strong> (OFI sees all instructions including BFI Price in instruction 4)</td>
+</tr>
+</tbody>
+</table></div>
+<p>On Solana, <strong>all correctness guarantees depend entirely on the backend constructing the transaction correctly and the OFI verifying the transaction before co-signing.</strong> There is no onchain smart contract enforcing invariants. If the backend constructs an incorrect transaction (bug or compromise) AND the OFI signs it without verification (possible for programmatic API integrations), funds could be misrouted.</p>
+<p>This creates a two-tier security model where EVM settlements have defense-in-depth (onchain + offchain enforcement) while Solana settlements rely on a single layer (offchain enforcement + co-signer vigilance).</p>
+<p><strong>[C16-HIGH] BFI Price visibility on Solana undermines the Pricing Engine's core value proposition.</strong> The document acknowledges: "the OFI can observe the full transaction contents (including BFI Price in instruction 4) before signing." This means:</p>
+<ul>
+<li>On EVM, the OFI <strong>cannot</strong> derive the BFI Price (it is hidden behind the arbitrage/incentive split)</li>
+<li>On Solana, the OFI <strong>can</strong> see the exact BFI Price</li>
+</ul>
+<p>This is not just a "privacy inconsistency" -- it is a business model risk. If OFIs learn BFI pricing on Solana, they may attempt to negotiate directly with BFIs, bypassing CPN. The document does not discuss whether this gap is acceptable to the product team or whether mitigations are planned.</p>
+<p><strong>[C17-HIGH] Solana refund has no replay protection beyond <code class="inline">recentBlockhash</code> TTL.</strong> The Solana refund flow (Refund Wallet -> CPN Operational Wallet -> Payee Wallet) uses composable token transfers with a Memo for audit. However:</p>
+<ul>
+<li>There is no onchain nonce tracking (unlike EVM's <code class="inline">_refundNonceUsed</code>)</li>
+<li>The <code class="inline">recentBlockhash</code> provides ~60-90 second replay protection, but after that window, the same refund could theoretically be re-submitted if the backend's deduplication fails</li>
+<li>The Memo program provides audit trail but does not enforce uniqueness</li>
+</ul>
+<p><strong>[C18-MEDIUM] Solana sustainability as complexity grows.</strong> The document's Non-Goals state "This design does not support future CCTP integration, escrow mechanisms, or subscription/recurring payment models." However, as CPN features grow (tiered fees, multi-token settlements, conditional payments), the "no custom program" approach will become increasingly difficult to maintain:</p>
+<ul>
+<li>Each new feature requires additional instructions in the transaction, increasing transaction size toward Solana's 1232-byte limit</li>
+<li>Complex conditional logic cannot be expressed in composable native instructions</li>
+<li>Verification remains entirely offchain, with no ability to add onchain guards</li>
+</ul>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R14] BLOCKING: Document the Solana trust model explicitly as a "backend correctness" dependency and define compensating controls.</strong> At minimum:</li>
+</ol>
+<ul>
+<li>OFI SDK/library that validates transaction instructions before signing (amounts, accounts, instruction order)</li>
+<li>Backend integration test suite that fuzzes transaction construction logic</li>
+<li>Real-time monitoring comparing Solana transaction outcomes against expected values</li>
+<li>Documented threshold at which CPN would invest in a custom Solana program</li>
+</ul>
+<ol>
+<li><strong>[R15]</strong> Work with the Product team to assess whether BFI Price visibility on Solana is an acceptable risk. If not, explore mitigations such as:</li>
+</ol>
+<ul>
+<li>Routing BFI distribution through an additional intermediary to obfuscate amounts</li>
+<li>Building a minimal Solana program that accepts encrypted/hashed amounts</li>
+<li>Contractual restrictions on OFIs regarding Solana-derived pricing data</li>
+</ul>
+<ol>
+<li><strong>[R16]</strong> Implement backend-level idempotency for Solana refunds keyed on payment ID + refund type, with database-level unique constraints, not just application-level deduplication.</li>
+</ol>
+<ol>
+<li><strong>[R17]</strong> Establish a decision framework (e.g., "when Solana CPN transaction count exceeds X per day OR when we need feature Y") for when to invest in a custom Solana program. Document this threshold now while the tradeoffs are fresh.</li>
+</ol>
+<hr>
+<h2 id="6-extensibility-maintainability">6. Extensibility & Maintainability</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong>Adding new fee types is relatively straightforward on EVM.</strong> The <code class="inline">maxFee</code> field aggregates all fees (Gas Fee + Circle Fee, where Circle Fee currently contains only arbitrage). Adding a new fee component (e.g., compliance fee, priority fee) requires:</p>
+<ol>
+<li>Pricing Engine includes the new fee in <code class="inline">maxFee</code> calculation</li>
+<li>No contract changes needed (the contract enforces <code class="inline">fee <= maxFee</code> but does not decompose fee types)</li>
+<li>Event emission already includes the <code class="inline">fee</code> amount for offchain fee decomposition</li>
+</ol>
+<p>This is a good separation of concerns -- the contract enforces total limits, the backend tracks fee breakdown.</p>
+<p><strong>The PSC Refund function's inactive-by-default approach is smart for rollout risk management.</strong> Shipping audited-but-inactive code means:</p>
+<ul>
+<li>The code is included in the external security audit</li>
+<li>No redeployment needed to activate</li>
+<li>OFI integration can proceed with the Rebalance contract while the PSC Refund is tested further</li>
+</ul>
+<p><strong>Testing strategy is comprehensive for EVM.</strong> The three-layer approach (Foundry unit tests, TypeScript/Viem integration tests on forked Sepolia, static analysis via Slither) covers:</p>
+<ul>
+<li>Contract-level correctness (unit tests)</li>
+<li>Real-world signature and state interaction (integration tests)</li>
+<li>Known vulnerability patterns (Slither)</li>
+</ul>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C19-MEDIUM] Non-upgradeable design creates a deployment coupling problem.</strong> When the PSC Refund function needs to be activated, the document implies it will be activated via a configuration change. However, the pseudocode shows <code class="inline">refund()</code> as a regular external function with <code class="inline">onlyAttester</code> modifier -- there is no explicit activation/deactivation mechanism shown. If activation requires a contract redeployment (new contract with the function enabled), this contradicts the "ships with code, activates later" claim. Clarify the activation mechanism.</p>
+<p><strong>[C20-MEDIUM] Code complexity is high for the refund function.</strong> The <code class="inline">refund()</code> function involves:</p>
+<ul>
+<li>Two separate EIP-712 signature verifications (payer and incentive provider)</li>
+<li>Variable number of RefundSource pulls</li>
+<li>PaymentRecord lookup and validation</li>
+<li>Balance invariant enforcement</li>
+<li>Two separate distributions</li>
+</ul>
+<p>This is the most complex function in the contract and should receive disproportionate audit attention. The document should flag this explicitly for the external audit team.</p>
+<p><strong>[C21-LOW] Testing strategy gaps for Solana.</strong> The Solana testing relies on E2E tests against a local Solana node. While this tests the happy path, there is no equivalent of Slither for Solana transaction construction, no fuzz testing of instruction parameters, and no property-based testing of the invariants that are enforced offchain.</p>
+<p><strong>[C22-LOW] No formal verification or invariant testing mentioned.</strong> For a financial settlement contract, Foundry's invariant testing (<code class="inline">forge test --invariant</code>) would provide higher assurance than unit tests alone. Key invariants to fuzz-test:</p>
+<ul>
+<li>No funds remain in the contract after <code class="inline">execute()</code> completes</li>
+<li><code class="inline">payerPullAmount + incentivePullAmount == payeeSettlementAmount + fee</code> always holds</li>
+<li>Nonce cannot be reused after payment execution</li>
+<li>Refund cannot exceed original payment (if R2 is implemented)</li>
+</ul>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R18]</strong> Clarify the PSC Refund activation mechanism. If it is an onchain configuration flag, show it in the contract design. If it requires redeployment, document the migration plan.</li>
+</ol>
+<ol>
+<li><strong>[R19]</strong> Add invariant/fuzz tests using Foundry's built-in capabilities. Define the invariants explicitly and include them in the CI pipeline.</li>
+</ol>
+<ol>
+<li><strong>[R20]</strong> For Solana, implement property-based testing of the transaction construction logic in the backend, verifying that for any valid pricing output, the constructed transaction satisfies the fund flow invariants.</li>
+</ol>
+<ol>
+<li><strong>[R21]</strong> In the external audit scope document, explicitly flag the <code class="inline">refund()</code> function and the <code class="inline">_validateAndExecuteRefund</code> helper as high-complexity targets requiring extra scrutiny.</li>
+</ol>
+<hr>
+<h2 id="7-operational-readiness">7. Operational Readiness</h2>
+<h3 id="assessment-what-is-good">Assessment: What is Good</h3>
+<p><strong>Deployment strategy is solid.</strong> Create2Factory for deterministic addresses across chains is a best practice that simplifies cross-chain address management and verification. Manual deployment (no CD) is appropriate for smart contracts where deployment errors are irreversible.</p>
+<p><strong>Monitoring covers the critical administrative events.</strong> The BEM (Blockchain Event Monitoring) configuration monitors ownership transfers, pauser changes, rescuer actions, configurator changes, and attester additions/removals. These are the right events to alert on.</p>
+<p><strong>Balance monitoring for role addresses is well-planned.</strong> Monitoring USDC and native token balances for Owner, Pauser, Rescuer, Configurator, and Contract addresses catches both unexpected fund movements and native token depletion (which would prevent role addresses from submitting transactions).</p>
+<p><strong>Secrets management follows institutional best practices.</strong> Owner keys in cold storage, attester keys in Core Custody MPC KMS, and Pricing Engine managing operational wallet keys provides appropriate separation.</p>
+<h3 id="concerns">Concerns</h3>
+<p><strong>[C23-HIGH] No monitoring for business-critical payment events.</strong> The monitoring section covers administrative events but does not mention monitoring for:</p>
+<ul>
+<li><code class="inline">NonceUsed</code> events (successful payments) -- volume anomalies could indicate attack or outage</li>
+<li><code class="inline">RefundExecuted</code> events -- sudden spike could indicate fraud</li>
+<li><code class="inline">RebalanceDistributed</code> events -- large unexpected movements</li>
+<li>Failed transaction patterns -- high revert rates could indicate misconfiguration</li>
+<li>CPN Incentive Wallet balance trending toward zero</li>
+<li>Gas price spikes that would make the <code class="inline">gasFee</code> quoted to OFIs insufficient</li>
+</ul>
+<p>For a production financial settlement system, business event monitoring is as critical as administrative event monitoring.</p>
+<p><strong>[C24-HIGH] No defined SLAs for incident response.</strong> The document does not specify:</p>
+<ul>
+<li>Time-to-detect for various failure scenarios</li>
+<li>Time-to-pause for an emergency</li>
+<li>Time-to-rotate for compromised attester keys</li>
+<li>Time-to-deploy for a replacement contract</li>
+<li>On-call rotation and escalation procedures</li>
+</ul>
+<p><strong>[C25-MEDIUM] Secrets management for Solana is underspecified.</strong> The EVM secrets management is clear (cold storage owner, MPC KMS attester), but the Solana section does not specify:</p>
+<ul>
+<li>How the CPN Incentive Wallet private key is managed (it signs every Solana settlement transaction)</li>
+<li>How the CPN Operational Wallet key is managed (it signs refund transactions)</li>
+<li>Whether these are also in MPC KMS or a different key management system</li>
+<li>Key rotation procedures for Solana wallets</li>
+</ul>
+<p><strong>[C26-MEDIUM] No runbook for common operational scenarios.</strong> The document does not include runbooks for:</p>
+<ul>
+<li>Adding a new attester</li>
+<li>Rotating the CPN Incentive Wallet on Solana</li>
+<li>Handling a failed refund (stuck in pending state)</li>
+<li>Recovering from a partial state inconsistency between offchain records and onchain state</li>
+<li>Migrating to a new contract version</li>
+</ul>
+<p><strong>[C27-LOW] CI pipeline does not include gas regression testing.</strong> The CI includes <code class="inline">forge test</code>, <code class="inline">forge coverage</code>, <code class="inline">Slither</code>, and <code class="inline">forge fmt</code>, but does not include <code class="inline">forge snapshot</code> or equivalent gas benchmarking. Since gas costs are directly passed to OFIs, gas regressions could silently increase costs for users.</p>
+<h3 id="recommendations">Recommendations</h3>
+<ol>
+<li><strong>[R22] BLOCKING: Add business event monitoring for NonceUsed, RefundExecuted, and RebalanceDistributed events.</strong> Include volume-based anomaly detection, amount threshold alerts, and trend monitoring for CPN Incentive Wallet balance.</li>
+</ol>
+<ol>
+<li><strong>[R23]</strong> Define SLAs for incident detection, response, and recovery. Document in an operational runbook alongside the deployment guide.</li>
+</ol>
+<ol>
+<li><strong>[R24]</strong> Specify Solana key management with the same rigor as EVM. Document which keys are in MPC KMS, which are in cold storage, and the rotation procedure for each.</li>
+</ol>
+<ol>
+<li><strong>[R25]</strong> Create operational runbooks for the scenarios listed in C26 before production launch.</li>
+</ol>
+<ol>
+<li><strong>[R26]</strong> Add <code class="inline">forge snapshot</code> to the CI pipeline and fail the build if gas usage increases beyond a configurable threshold.</li>
+</ol>
+<hr>
+<h2 id="8-overall-verdict-summary">8. Overall Verdict & Summary</h2>
+<h3 id="verdict-approve-with-changes">Verdict: APPROVE WITH CHANGES</h3>
+<p>The design is architecturally sound for its stated requirements. The team has made thoughtful decisions about trust boundaries, contract structure, and cross-chain tradeoffs. The document's thoroughness in explaining signing semantics, fund flow invariants, and explicit tradeoffs is well above average for a smart contract design review.</p>
+<p>However, three categories of changes are required before production deployment:</p>
+<h3 id="blocking-items-must-resolve-before-production">Blocking Items (Must resolve before production)</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Issue</th>
+<th>Severity</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R10</td>
+<td>Define compensating controls for attester compromise</td>
+<td><span class="badge badge-critical">Critical</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>R14</td>
+<td>Document Solana trust model and compensating controls</td>
+<td><span class="badge badge-critical">Critical</span></td>
+<td>5</td>
+</tr>
+<tr>
+<td>R22</td>
+<td>Add business event monitoring</td>
+<td><span class="badge badge-high">High</span></td>
+<td>7</td>
+</tr>
+</tbody>
+</table></div>
+<p>These three items represent the gap between "architecturally sound design" and "production-ready system." The design correctly identifies the attester as the concentrated trust point, but does not specify the detective and preventive controls that make this concentration acceptable.</p>
+<h3 id="high-priority-items-should-resolve-before-production-may-be-accepted-with-documented-risk">High-Priority Items (Should resolve before production, may be accepted with documented risk)</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Issue</th>
+<th>Severity</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R2</td>
+<td>Store original amounts in PaymentRecord for refund bounding</td>
+<td><span class="badge badge-high">High</span></td>
+<td>1</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>Add explicit array length caps for refund/rebalance</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>3</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>Implement incentive pull ceiling (onchain or offchain)</td>
+<td><span class="badge badge-high">High</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>R15</td>
+<td>Assess BFI Price visibility risk on Solana with Product</td>
+<td><span class="badge badge-high">High</span></td>
+<td>5</td>
+</tr>
+<tr>
+<td>R23</td>
+<td>Define incident response SLAs</td>
+<td><span class="badge badge-high">High</span></td>
+<td>7</td>
+</tr>
+<tr>
+<td>R24</td>
+<td>Specify Solana key management</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>7</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="recommended-items-improve-quality-but-not-blocking">Recommended Items (Improve quality but not blocking)</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Issue</th>
+<th>Severity</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Rename <code class="inline">value</code> field or document migration clearly</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>1</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Restructure refund for clearer CEI compliance</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>2</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Document EIP-712 domain separation strategy</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>2</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>Clarify <code class="inline">requirePayeeSign</code> scope</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>2</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>Plan CPN Incentive Wallet pool for Solana scalability</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>3</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>Complete gas profiling before production</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>3</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>Document contract migration playbook</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>R13</td>
+<td>Add Permit2 compromise to risk registry</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>R16</td>
+<td>Implement database-level idempotency for Solana refunds</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>5</td>
+</tr>
+<tr>
+<td>R17</td>
+<td>Establish custom Solana program decision threshold</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>5</td>
+</tr>
+<tr>
+<td>R18</td>
+<td>Clarify PSC Refund activation mechanism</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>6</td>
+</tr>
+<tr>
+<td>R19</td>
+<td>Add Foundry invariant/fuzz tests</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>6</td>
+</tr>
+<tr>
+<td>R20</td>
+<td>Property-based testing for Solana transaction construction</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>6</td>
+</tr>
+<tr>
+<td>R21</td>
+<td>Flag refund function complexity for external audit</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>6</td>
+</tr>
+<tr>
+<td>R25</td>
+<td>Create operational runbooks</td>
+<td><span class="badge badge-medium">Medium</span></td>
+<td>7</td>
+</tr>
+<tr>
+<td>R26</td>
+<td>Add gas regression testing to CI</td>
+<td><span class="badge badge-low">Low</span></td>
+<td>7</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="architecture-strengths-to-preserve">Architecture Strengths to Preserve</h3>
+<ol>
+<li><strong>Non-upgradeable contract with managed migration</strong> -- the correct choice for a payment settlement system</li>
+<li><strong>PSC Refund / Rebalance separation</strong> -- excellent for audit clarity and rollout flexibility</li>
+<li><strong>Per-party amount privacy in refund signatures</strong> -- thoughtful design that respects business relationships</li>
+<li><strong>Explicit tradeoff documentation</strong> -- the Priorities and Tradeoffs section sets a high bar for design review transparency</li>
+<li><strong>Incremental extension</strong> of proven contract patterns rather than greenfield redesign</li>
+</ol>
+<h3 id="final-note">Final Note</h3>
+<p>The most important strategic question this design surfaces is: <strong>How long can the "no custom Solana program" approach be sustained?</strong> Today, with low traffic and simple payment flows, it works. But the fundamental asymmetry -- onchain enforcement on EVM vs. pure offchain enforcement on Solana -- means every new feature added to EVM requires equivalent offchain implementation and testing for Solana, with no onchain safety net. The team should establish a clear trigger for investing in a custom Solana program before the offchain verification complexity becomes a liability.</p>
+<hr>
+<p><em>Review conducted against the design document "CPN Onchain Settlement with Pricing Engine Enablement" dated 2026-02-20, status "In Review." This review covers architectural design only; a separate smart contract security audit should be conducted on the implementation code.</em></p>
+
+    </div>
+</section>
+
+<section id="engineering-review" class="card report-section">
+    <h2 class="section-title">Engineering Design Review</h2>
+    <div class="section-content">
+        <h1 id="engineering-design-review-cpn-onchain-settlement-with-pricing-engine-enablement">Engineering Design Review: CPN Onchain Settlement with Pricing Engine Enablement</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This design extends Circle's CPN PaymentSettlement contract to support a Pricing Engine with dual pricing (OFI Price vs BFI Price), incentive subsidies, arbitrage/revenue capture, and split refunds across both EVM (Solidity) and Solana (composable native instructions). The design is thorough, well-structured, and demonstrates strong understanding of the problem domain. However, several issues require attention before production deployment: the attester's unchecked authority over fund routing, the privacy inconsistency between EVM and Solana, the absence of fuzz/invariant testing, and gaps in operational runbooks and rollback procedures for a non-upgradeable contract.</p>
+<h2 id="overall-verdict-approve-with-required-changes">Overall Verdict: Approve with Required Changes</h2>
+<hr>
+<h2 id="agent-reviews">Agent Reviews</h2>
+<h3 id="1-architecture-review">1. Architecture Review</h3>
+<p><strong>Verdict</strong>: Approve with Required Changes</p>
+<p><strong>Design Soundness</strong>: 4/5 The design correctly solves the stated problem of enabling split-funding, incentive subsidies, and arbitrage capture in atomic onchain settlements. The separation between EVM (smart contract with onchain enforcement) and Solana (composable native instructions with offchain enforcement) is a pragmatic choice that leverages each chain's strengths. The data structures are well-thought-out and the fund invariant (<code class="inline">payerAuthorizedAmount + incentive == payeeSettlementAmount + maxFee</code>) provides a strong correctness guarantee.</p>
+<p><strong>Top Issues (ranked by severity)</strong>:</p>
+<ol>
+<li><strong>EVM-Solana architectural asymmetry creates divergent trust models</strong> -- On EVM, the contract enforces invariants onchain (nonce uniqueness, fund sufficiency, signature verification). On Solana, ALL verification is offchain by the attester. This means a bug or compromise in the Solana attester path has fundamentally different consequences than on EVM. The document acknowledges this but does not propose compensating controls to bring Solana's assurance level closer to EVM's. -- <em>Suggested fix</em>: Document explicit compensating controls for Solana (e.g., post-transaction verification service, balance reconciliation checks, dual-attester signing for Solana transactions above a threshold).</li>
+</ol>
+<ol>
+<li><strong>PSC Refund ships as inactive code in a non-upgradeable contract</strong> -- Deploying inactive functionality in an immutable contract means the refund code will be audited but never battle-tested before activation. If the activation mechanism requires a contract upgrade (which is not possible), or if the inactive code has a latent bug, the system must be fully redeployed. -- <em>Suggested fix</em>: Clarify the exact activation mechanism for PSC Refund. If it requires redeployment anyway, consider removing it from the initial contract to reduce audit surface and deploying it when ready.</li>
+</ol>
+<ol>
+<li><strong>PaymentRecord stores only payer and incentiveProvider but not amounts</strong> -- The <code class="inline">PaymentRecord</code> struct (<code class="inline">{ address payer; address incentiveProvider; }</code>) stored during <code class="inline">execute()</code> lacks the original amounts (payerAuthorizedAmount, payeeSettlementAmount, fee). The refund function relies entirely on attester-provided <code class="inline">RefundIntent</code> amounts with no onchain reference for sanity-checking against the original payment. -- <em>Suggested fix</em>: Consider storing at minimum the payeeSettlementAmount or a hash of the original intent, enabling the refund function to perform a ceiling check (refund amounts should not exceed original amounts).</li>
+</ol>
+<ol>
+<li><strong>Rebalance contract nonce namespace is independent of PSC</strong> -- The Rebalance contract uses <code class="inline">_nonceUsed[intent.nonce]</code> with its own independent nonce space. There is no linkage to payment nonces. While this is by design ("No payment linkage"), it means the Rebalance contract is a general-purpose fund mover controlled solely by attesters with no business-logic constraints. -- <em>Suggested fix</em>: Document the intended governance/approval process for rebalance operations. Consider an upper bound on single-rebalance amounts or a time-delay mechanism for large movements.</li>
+</ol>
+<p><strong>Alternatives Not Considered</strong>:</p>
+<ul>
+<li><strong>Upgradeable proxy with timelock</strong>: The document dismisses upgradeability broadly, but a UUPS proxy with a 48-hour timelock and multisig governance would allow fixing critical bugs without full migration. The switching strategy has its own risks (dual-contract period, OFI migration coordination).</li>
+<li><strong>Solana program with minimal onchain validation</strong>: Rather than zero onchain enforcement on Solana, a lightweight Solana program could enforce nonce uniqueness and balance invariants while still using composable instructions for token transfers. This would close the trust gap with EVM.</li>
+</ul>
+<p><strong>Scalability Concerns</strong>:</p>
+<ul>
+<li><strong>Solana write lock contention on CPN Incentive Wallet</strong>: All forward flow transactions share the CPN Incentive Wallet ATA, serializing execution. At current 5 QPS peak this is fine, but growth to 50+ QPS would require architectural changes (multiple beneficiary wallets). The design correctly identifies this but the mitigation is vague ("planned mitigations").</li>
+<li><strong>Refund O(n) with unbounded n for sources</strong>: While the document says n is "small (1-2)", there is no onchain cap mentioned. A malicious attester could submit a refund with many sources, consuming excessive gas.</li>
+</ul>
+<p><strong>Failure Modes Not Addressed</strong>:</p>
+<ul>
+<li><strong>CPN Incentive Wallet runs out of funds on Solana</strong>: If the pre-funded balance is insufficient for an incentive payment, the entire transaction reverts. There is no graceful degradation or fallback to a non-incentivized payment.</li>
+<li><strong>Permit2 nonce front-running</strong>: If an attester-submitted transaction is pending and a user or MEV bot front-runs by consuming the Permit2 nonce, the settlement fails. The recovery path is not documented.</li>
+<li><strong>Contract switching: in-flight payments during migration</strong>: Payments initiated against the old contract during the migration window could fail if the old contract is paused/deprecated before they settle.</li>
+</ul>
+<p><strong>Atomicity & Consistency Gaps</strong>:</p>
+<ul>
+<li><strong>EVM execute() atomicity is sound</strong>: All pulls and distributions happen in a single transaction. If any step fails, the entire transaction reverts.</li>
+<li><strong>Solana atomicity is sound</strong>: Solana native transaction atomicity ensures all-or-nothing execution.</li>
+<li><strong>Refund atomicity gap on Solana</strong>: Solana refund flows through CPN Operational Wallet as an intermediary. If the CPN Operational Wallet has insufficient pre-funded balance, the transaction fails with no partial execution -- this is correct but creates an availability dependency.</li>
+</ul>
+<p><strong>Missing from the Document</strong>:</p>
+<ul>
+<li>Migration playbook for contract switching: specific steps, dual-support duration, OFI communication plan.</li>
+<li>Upper bounds on Rebalance contract parameters (max sources, max distributions, max single-transfer amount).</li>
+<li>Explicit failure mode documentation for Solana (what happens when each instruction fails).</li>
+<li>Event indexing strategy for refund auditing across both chains.</li>
+</ul>
+<p><strong>Strengths</strong>:</p>
+<ul>
+<li>Excellent use of Permit2/EIP-712 witness data to bind payment context to authorization.</li>
+<li>Clean separation of the fund sufficiency invariant enforced at the contract level.</li>
+<li>Thoughtful consideration of BFI onboarding friction (optional signature).</li>
+<li>Well-documented tradeoffs section that honestly acknowledges residual risks.</li>
+<li>Consistent instruction format on Solana regardless of incentive/arbitrage case.</li>
+</ul>
+<p><strong>Cross-Cutting Concerns</strong>:</p>
+<ul>
+<li>The attester's authority level should be examined by Security (god-mode risk).</li>
+<li>The CPN Incentive Wallet pre-funding requirement should be examined by Operational Readiness.</li>
+<li>The inactive refund code should be examined by Testing Strategy (how to test inactive code).</li>
+</ul>
+<hr>
+<h3 id="2-security-review">2. Security Review</h3>
+<p><strong>Verdict</strong>: Approve with Required Changes</p>
+<p><strong>Threat Model Assessment</strong>: 3/5 The trust model is well-articulated for the EVM path, with clear separation between what each party signs and what the contract enforces. However, the attester's effective control over fund routing, combined with optional BFI signatures and Solana's offchain-only verification, creates a concentrated trust surface that is insufficiently mitigated.</p>
+<p><strong>Top Issues (ranked by severity)</strong>:</p>
+<ol>
+<li><strong>[Severity: High] Attester can set any fee up to maxFee, capturing excess value</strong> -- The <code class="inline">fee</code> parameter in <code class="inline">execute()</code> is passed by the attester at call time and is only checked against <code class="inline">fee <= intent.maxFee</code>. The attester can always set <code class="inline">fee = maxFee</code>, directing the maximum possible amount to the CPN beneficiary. Combined with the fund sufficiency invariant, the attester controls how the "spread" between payerAuthorizedAmount and payeeSettlementAmount is split between actual gas costs and CPN revenue. There is no onchain mechanism to verify that <code class="inline">fee</code> reflects actual costs. -- <em>Attack scenario</em>: A compromised attester sets fee = maxFee on every transaction, silently extracting maximum revenue regardless of actual gas costs. This is within the contract's valid execution path. -- <em>Suggested mitigation</em>: Implement offchain monitoring that compares submitted fee values against actual gas costs plus expected Circle Fee. Alert on sustained deviation. Consider a fee breakdown in the intent (gasFee + circleFee) with separate onchain validation.</li>
+</ol>
+<ol>
+<li><strong>[Severity: High] BFI Price visible to OFI on Solana breaks pricing decoupling</strong> -- On EVM, the BFI Price is intentionally hidden from the OFI (it is in the PaymentIntent but the OFI only signs the Permit2 witness which contains <code class="inline">value</code>, not <code class="inline">payeeSettlementAmount</code>). On Solana, ALL signers sign the full serialized transaction message. The document explicitly states "the OFI can observe the full transaction contents (including BFI Price in instruction 4) before signing." This directly contradicts the stated product goal of "hiding BFI Price from OFI during the quote phase to preserve pricing decoupling." -- <em>Attack scenario</em>: An OFI systematically observes BFI Prices across transactions and uses this information to gain unfair advantage in negotiations, undermining the Pricing Engine's decoupling goal. -- <em>Suggested mitigation</em>: If pricing decoupling is a hard requirement, this is a design-level issue on Solana. Options: (a) accept the privacy leakage and document it as a known limitation with business acceptance, (b) introduce a Solana program that encapsulates the BFI-to-payee transfer in a way the OFI cannot observe at signing time, (c) use transaction-level encryption. The document should at minimum require explicit Product/Legal sign-off on this asymmetry.</li>
+</ol>
+<ol>
+<li><strong>[Severity: High] Refund source opacity -- signers cannot verify fund origins</strong> -- The <code class="inline">RefundSource[]</code> array (wallets from which refund funds are pulled) is determined solely by the attester at execution time. Each party signs their own refund amount but has NO visibility into where the funds come from. The document acknowledges this: "Trust in source selection is placed entirely in the attester." -- <em>Attack scenario</em>: A compromised attester could construct a refund that pulls funds from an unrelated wallet (if it has a valid Permit2 signature for the settlement contract) and distributes them to the payer/incentive provider, effectively misappropriating funds. -- <em>Suggested mitigation</em>: For PSC Refund, consider binding refund sources to the original PaymentRecord (e.g., require that at least one source is the payee address from the original payment). Alternatively, include source addresses in the signed refund intent so signers can verify fund origins.</li>
+</ol>
+<ol>
+<li><strong>[Severity: Medium] No onchain amount ceiling on refunds</strong> -- The refund function validates that <code class="inline">totalSourceAmount == totalDistAmount</code> (balance invariant) but does NOT check that <code class="inline">payerRefundAmount + incentiveProviderRefundAmount <= original payeeSettlementAmount + fee</code>. An attester could construct a refund for more than the original payment if sufficient funds are available in the source wallets. -- <em>Suggested mitigation</em>: Store the original payeeSettlementAmount + fee (or a hash) in the PaymentRecord. Add an onchain check that total refund distribution does not exceed the original settlement total.</li>
+</ol>
+<ol>
+<li><strong>[Severity: Medium] Incentive provider Permit2 nonce is shared with payer nonce field</strong> -- The IncentiveConsent witness contains the same <code class="inline">nonce</code> field as the payer's PaymentIntent. If the incentive provider and payer happen to use the same Permit2 nonce value in different contexts, there could be replay confusion. The document does not clarify whether the Permit2 nonce namespace is per-address (which would prevent this) or global. -- <em>Suggested mitigation</em>: Clarify that Permit2 nonces are per-owner (they are in Uniswap's implementation) and add this as an explicit assumption in the design.</li>
+</ol>
+<p><strong>Trust Boundary Gaps</strong>:</p>
+<ul>
+<li><strong>Attester is effectively God</strong>: The attester constructs the PaymentIntent (including payeeSettlementAmount), chooses the fee, determines refund sources, and submits all transactions. The only constraints are the fund sufficiency invariant and signature verification. If the attester is compromised, it can construct valid-looking transactions that systematically misdirect funds within the invariant bounds (e.g., setting payeeSettlementAmount to 0 and fee to maxFee in a newly constructed intent). Compensating control: the OFI's Permit2 signature binds <code class="inline">value</code> (amount to BFI) and <code class="inline">maxFee</code>, so the attester cannot increase OFI's total outflow beyond what was signed.</li>
+<li><strong>CPN Incentive Wallet on Solana is always a co-signer</strong>: This creates a single point of compromise. If the CPN Incentive Wallet's key is compromised, the attacker can co-sign any transaction involving that wallet's funds.</li>
+</ul>
+<p><strong>Signature / Auth Scheme Issues</strong>:</p>
+<ul>
+<li><strong>EIP-712 witness binding is well-designed</strong>: The payer's witness binds <code class="inline">from</code>, <code class="inline">to</code>, <code class="inline">value</code>, <code class="inline">maxFee</code>, <code class="inline">nonce</code>, <code class="inline">attester</code>, and time window. The incentive provider's witness cross-references <code class="inline">payerAuthorizedAmount</code>, <code class="inline">payeeSettlementAmount</code>, and <code class="inline">maxFee</code>. This creates strong cryptographic binding.</li>
+<li><strong>Payee signature binds to <code class="inline">settlementAmount</code> (BFI Price)</strong>: When enabled, this provides strong assurance. When disabled, the BFI has no onchain protection.</li>
+<li><strong>Solana: no typed-data signing</strong>: OFI signs raw transaction bytes, which is less human-readable than EIP-712. A compromised or malicious frontend could present misleading transaction summaries.</li>
+</ul>
+<p><strong>Fund Flow Risks</strong>:</p>
+<ul>
+<li><strong>Funds cannot get stuck in the EVM contract</strong>: The contract never holds funds between transactions (all pulls and distributions happen atomically). The Rescuable role provides emergency extraction if tokens are accidentally sent to the contract.</li>
+<li><strong>Solana CPN Incentive Wallet accumulates funds</strong>: Unlike the EVM contract, the CPN Incentive Wallet on Solana holds pre-funded balances. The security of these funds depends entirely on the wallet key.</li>
+</ul>
+<p><strong>Replay / Frontrunning Concerns</strong>:</p>
+<ul>
+<li><strong>EVM replay protection is sound</strong>: Payment nonce is marked used before fund pulls (checks-effects-interactions). Refund nonce provides one-refund-per-payment.</li>
+<li><strong>Solana replay protection is offchain only</strong>: The Memo instruction records payment IDs but provides no onchain uniqueness guarantee. A duplicated transaction with a new Solana-level nonce (recent blockhash) could potentially re-execute the same payment. Mitigation: OFI would need to re-sign, which is unlikely to happen accidentally.</li>
+<li><strong>MEV/frontrunning</strong>: On EVM, MEV bots cannot front-run <code class="inline">execute()</code> because only whitelisted attesters can call it. On Solana, the transaction is submitted by the fee payer (CPN Relayer), so sandwich attacks on the token transfers themselves are possible in theory but limited in practice because these are stablecoin transfers (no slippage).</li>
+</ul>
+<p><strong>Residual Risks (accepted)</strong>:</p>
+<ul>
+<li><strong>Optional BFI signature</strong>: When disabled, CPN bears the risk of misdirected BFI payouts. Accepted for BFI onboarding friction reduction. Compensating control: offchain monitoring of settlement amounts.</li>
+<li><strong>Attester centralization</strong>: Accepted as a design tradeoff. Compensating controls: MPC KMS for key management, attester whitelist rotation, BEM monitoring.</li>
+<li><strong>Solana privacy leakage</strong>: OFI can see BFI Price. This appears to not yet have explicit Product/Legal sign-off per the document.</li>
+</ul>
+<p><strong>Missing from the Document</strong>:</p>
+<ul>
+<li>Formal threat model document (STRIDE or equivalent) covering each actor and their attack capabilities.</li>
+<li>Blast radius analysis for attester key compromise (quantified: how much could be stolen, over what time window, before detection).</li>
+<li>Rate limiting or velocity checks on the attester (how many transactions can a compromised attester execute before being detected and paused).</li>
+<li>Signature malleability handling (OpenZeppelin's SignatureChecker handles this, but it should be explicitly confirmed).</li>
+</ul>
+<p><strong>Cross-Cutting Concerns</strong>:</p>
+<ul>
+<li>The Operational Readiness agent should examine attester key rotation procedures and incident response for key compromise.</li>
+<li>The Testing Strategy agent should examine whether adversarial test scenarios (malicious attester, manipulated fees) are included.</li>
+<li>The Risk Analysis agent should quantify the financial exposure from attester compromise.</li>
+</ul>
+<hr>
+<h3 id="3-operational-readiness-review">3. Operational Readiness Review</h3>
+<p><strong>Verdict</strong>: Approve with Required Changes</p>
+<p><strong>Production Readiness</strong>: 3/5 The deployment infrastructure (Create2Factory, manual deployment process, CI with forge/Slither) is adequate. Monitoring via BEM for ownership/pause/rescue events is a good start. However, several operational gaps need to be addressed: no runbooks for common failure scenarios, insufficient detail on the contract switching rollover period, and no documented procedure for attester rotation under duress.</p>
+<p><strong>Top Issues (ranked by severity)</strong>:</p>
+<ol>
+<li><strong>No runbook for attester key compromise incident response</strong> -- The document states attester keys use Core Custody MPC KMS but does not describe: (a) how a compromise is detected, (b) the procedure to rotate attesters under emergency, (c) whether pausing the contract is the first response and what the business impact of pausing is, (d) how in-flight payments are handled during an attester rotation. -- <em>Operational impact</em>: A 3am incident with a potentially compromised attester key would require ad-hoc decision-making. -- <em>Suggested fix</em>: Create a dedicated incident response playbook for attester compromise including: detection criteria, escalation path, pause decision tree, rotation procedure, and resumption checklist.</li>
+</ol>
+<ol>
+<li><strong>CPN Incentive Wallet pre-funding lacks operational procedures</strong> -- On Solana, the CPN Incentive Wallet must be pre-funded to cover incentive shortfalls. There is no documented: (a) minimum balance threshold, (b) alerting for low balance, (c) automated or manual replenishment procedure, (d) what happens to payments when the wallet runs dry. -- <em>Operational impact</em>: If the wallet balance drops below the needed incentive amount, all incentivized payments on Solana will fail atomically until the wallet is replenished. -- <em>Suggested fix</em>: Define minimum balance thresholds based on expected incentive volumes. Add BEM balance monitoring alerts for the CPN Incentive Wallet. Document the replenishment procedure and SLA.</li>
+</ol>
+<ol>
+<li><strong>Contract switching rollover period is underspecified</strong> -- The rollout plan says: "CPN service support both old and new contracts in the rollout period by API level." This is the most critical operational phase and it needs more detail: (a) How long is the dual-support period? (b) How are new payments routed (old contract vs new)? (c) When is the old contract paused/deprecated? (d) What about OFIs that have pending payments on the old contract? (e) Can an OFI that has already signed a Permit2 for the old contract seamlessly switch to the new contract? -- <em>Suggested fix</em>: Create a detailed migration playbook with specific phases, success criteria for each phase, and rollback triggers.</li>
+</ol>
+<ol>
+<li><strong>No alerting on anomalous settlement patterns</strong> -- BEM monitoring covers ownership/pause/rescue events and balance changes on role addresses. It does NOT cover: (a) anomalous fee extraction patterns (fee consistently at maxFee), (b) unusual incentive amounts, (c) refund volume spikes, (d) failed transaction patterns. -- <em>Suggested fix</em>: Define business-metric alerts: average fee vs. expected fee deviation, incentive-to-payment ratio, refund rate, failed settlement rate.</li>
+</ol>
+<p><strong>Deployment Concerns</strong>:</p>
+<ul>
+<li><strong>Manual deployment with no CD</strong>: Acceptable for smart contracts where deployment frequency is low. However, the deployment process should be automated via scripts (reproducible) even if triggered manually.</li>
+<li><strong>Create2Factory for deterministic addresses</strong>: Good practice. Ensures same address across chains and environments.</li>
+<li><strong>No canary deployment possible</strong>: Smart contracts are all-or-nothing. The dual-contract approach serves as the functional equivalent of canary deployment.</li>
+</ul>
+<p><strong>Rollback Gaps</strong>:</p>
+<ul>
+<li><strong>Non-upgradeable contracts cannot be rolled back</strong>: If a critical bug is found post-deployment, the only option is to pause, deploy a new contract, and migrate. This is a known and accepted tradeoff, but the migration procedure needs to be pre-planned, not improvised during an incident.</li>
+<li><strong>Solana has no contract to roll back</strong>: All logic is in transaction construction. Rollback means deploying updated backend code, which is standard.</li>
+</ul>
+<p><strong>Monitoring Gaps</strong>:</p>
+<ul>
+<li><strong>No onchain event monitoring for settlement correctness</strong>: BEM monitors admin events but not payment events (NonceUsed, RefundExecuted, RebalanceDistributed). These events are critical for verifying that settlements are executing correctly.</li>
+<li><strong>No dashboard for settlement metrics</strong>: Average settlement time, success rate, incentive utilization rate, fee distribution.</li>
+</ul>
+<p><strong>Missing Runbooks / Procedures</strong>:</p>
+<ul>
+<li><strong>Attester key compromise</strong>: Detection, containment, rotation, resumption.</li>
+<li><strong>CPN Incentive Wallet depletion on Solana</strong>: Detection, replenishment, payment rerouting.</li>
+<li><strong>Failed settlement debugging</strong>: How to investigate why a specific settlement failed, tools needed, log correlation between offchain and onchain.</li>
+<li><strong>Contract pause / unpause procedure</strong>: Decision criteria, approval process, communication to OFIs/BFIs.</li>
+<li><strong>Emergency rescue procedure</strong>: When to use the Rescuable role, approval process, post-rescue reconciliation.</li>
+</ul>
+<p><strong>Secrets / Key Management Issues</strong>:</p>
+<ul>
+<li><strong>Owner key in cold storage</strong>: Good practice for non-upgradeable contracts.</li>
+<li><strong>Attester keys in MPC KMS</strong>: Good practice. Confirm that MPC threshold is sufficient (e.g., 2-of-3 or higher).</li>
+<li><strong>CPN Incentive Wallet key on Solana</strong>: Not clear if this uses MPC KMS or a different mechanism. This key authorizes all outflows from the incentive wallet and should have equivalent protection to attester keys.</li>
+</ul>
+<p><strong>Missing from the Document</strong>:</p>
+<ul>
+<li>Incident response playbooks for the top 5 failure scenarios.</li>
+<li>SLA definition for settlement execution (e.g., settlement must complete within X blocks of submission).</li>
+<li>Communication plan for contract migration (OFI notification timeline, deprecation schedule).</li>
+<li>Backup attester rotation procedure (how quickly can a new attester be whitelisted?).</li>
+<li>Gas price spike handling (does the system pause during extreme gas price periods?).</li>
+</ul>
+<p><strong>Cross-Cutting Concerns</strong>:</p>
+<ul>
+<li>The Security agent should examine whether the monitoring gaps create windows for undetected exploitation.</li>
+<li>The Risk Analysis agent should assess the operational risk of the dual-contract migration period.</li>
+</ul>
+<hr>
+<h3 id="4-testing-strategy-review">4. Testing Strategy Review</h3>
+<p><strong>Verdict</strong>: Approve with Required Changes</p>
+<p><strong>Test Confidence</strong>: 3/5 The testing plan covers the fundamental paths: unit tests with Foundry, integration tests on forked Sepolia, and static analysis with Slither. However, for a payment settlement contract handling real funds, the absence of fuzz testing, invariant testing, and formal verification is a notable gap. The Solana testing strategy is significantly thinner than EVM, relying entirely on E2E tests against a local node.</p>
+<p><strong>Top Issues (ranked by severity)</strong>:</p>
+<ol>
+<li><strong>No fuzz testing or invariant testing</strong> -- For a financial smart contract, property-based testing is essential. The fund sufficiency invariant (<code class="inline">payerAuthorizedAmount + incentive == payeeSettlementAmount + maxFee</code>) should be verified via Foundry's built-in fuzzer across randomized inputs. Similarly, the refund balance invariant (<code class="inline">totalSourceAmount == totalDistAmount</code>) and the property "no funds remain in the contract after execute()" should be tested as invariants. -- <em>What could go wrong</em>: Edge cases in arithmetic (near uint256 max, near zero, specific combinations of amounts that trigger rounding or overflow) could violate the invariant without being caught by hand-written unit tests. -- <em>Suggested test</em>: Add <code class="inline">testFuzz_execute_fundInvariant(uint256 payerAuth, uint256 payeeSett, uint256 maxFee, uint256 fee)</code> that verifies the contract balance is zero after execution. Add <code class="inline">invariant_noFundsStuck()</code> that checks the contract balance is always zero after any sequence of operations.</li>
+</ol>
+<ol>
+<li><strong>No testing of the inactive PSC Refund code path</strong> -- The PSC Refund function ships inactive but is included in the contract code. If it is included in the audit scope, it should also be included in the test scope. The document lists refund integration tests but does not distinguish between Rebalance refunds and PSC refunds. -- <em>What could go wrong</em>: Latent bugs in the inactive refund code could be exploited if/when the function is activated, or could interact unexpectedly with the active code paths. -- <em>Suggested test</em>: Full unit and integration test coverage for the PSC Refund function, clearly marked as testing an "inactive" feature. Include tests that verify the function correctly reverts when the feature is disabled (if there is a feature flag).</li>
+</ol>
+<ol>
+<li><strong>Solana testing relies entirely on E2E tests with no unit-level verification</strong> -- The document states "Unlike EVM where invariants are enforced by a smart contract that can be tested in isolation, Solana correctness depends on the backend constructing transactions correctly." While this is true, the transaction construction logic in the backend SHOULD have unit tests. -- <em>What could go wrong</em>: A bug in transaction construction (wrong instruction order, wrong amount encoding, wrong account in the keys array) would only be caught by E2E tests, which are slower and harder to debug. -- <em>Suggested test</em>: Unit tests for the Solana transaction construction functions: verify instruction structure, account ordering, amount encoding for each case (standard, incentive, arbitrage, refund).</li>
+</ol>
+<ol>
+<li><strong>No adversarial/negative test scenarios for attester behavior</strong> -- The test plan covers "InvalidAttester, NotYetValid, ExpiredIntent, FeeExceedsMax" but does not mention testing adversarial attester behavior within valid bounds: fee set to maxFee on every transaction, payeeSettlementAmount set to zero, identical from/to addresses, etc. -- <em>What could go wrong</em>: The contract may allow technically valid but economically harmful transactions that should be caught by additional validation. -- <em>Suggested test</em>: Add negative tests for economically degenerate cases: <code class="inline">testExecute_zeroPayeeSettlementAmount</code>, <code class="inline">testExecute_feeEqualsMaxFee_alwaysCaptures</code>, <code class="inline">testExecute_fromEqualsTo</code>.</li>
+</ol>
+<p><strong>Untested <span class="badge badge-critical">Critical</span> Paths</strong>:</p>
+<ul>
+<li><strong>Incentive + Refund combined flow</strong>: Execute an incentivized payment, then refund with split between payer and incentive provider. Verify both receive correct amounts.</li>
+<li><strong>Multiple sequential refunds for different payments</strong>: Verify nonce isolation and no cross-contamination.</li>
+<li><strong>Rebalance with maximum sources/distributions</strong>: Test gas limits and operational bounds.</li>
+</ul>
+<p><strong>Missing Edge Cases</strong>:</p>
+<ul>
+<li><code class="inline">payeeSettlementAmount == 0</code> (valid? or should revert?)</li>
+<li><code class="inline">maxFee == 0</code> with <code class="inline">fee == 0</code> (no-fee payment)</li>
+<li><code class="inline">payerAuthorizedAmount == payeeSettlementAmount</code> and <code class="inline">maxFee == 0</code> (exact match, no fee)</li>
+<li><code class="inline">incentive.permit.permitted.amount == 0</code> with non-zero incentiveProvider address</li>
+<li>Permit2 deadline exactly at block.timestamp (boundary)</li>
+<li><code class="inline">validAfter == validBefore</code> (zero-width time window)</li>
+<li>Refund where <code class="inline">payerRefundAmount == 0</code> (full refund to incentive provider only)</li>
+<li>Two payments with same payer, payee, amount but different nonces (ensure isolation)</li>
+</ul>
+<p><strong>Test Type Gaps</strong>:</p>
+<ul>
+<li><strong>Fuzz testing (Foundry)</strong>: High priority. Would catch arithmetic edge cases in the fund invariant.</li>
+<li><strong>Invariant testing (Foundry)</strong>: High priority. Would verify system-wide properties hold across arbitrary operation sequences.</li>
+<li><strong>Formal verification</strong>: Medium priority. The fund invariant is simple enough to formally verify with tools like Certora or Halmos. Given this is a payment system, formal verification of the core invariant is justified.</li>
+<li><strong>Fork testing against mainnet state</strong>: Medium priority. Testing against real Permit2 deployment and USDC contract on mainnet fork would catch integration issues.</li>
+<li><strong>Gas regression tests</strong>: Low priority but useful. The document mentions gas profiling in CI but does not describe regression thresholds.</li>
+</ul>
+<p><strong>Security-Relevant Untested Scenarios</strong>:</p>
+<ul>
+<li><strong>Reentrancy via malicious ERC20 token</strong>: Test with a reentrant token that calls back into execute() during safeTransfer.</li>
+<li><strong>Signature malleability</strong>: Test that malleable signatures are rejected.</li>
+<li><strong>Permit2 nonce ordering attack</strong>: Test that using nonces out of order does not cause issues.</li>
+<li><strong>Refund with source that is the contract itself</strong>: Verify this is properly rejected.</li>
+</ul>
+<p><strong>Test Environment Concerns</strong>:</p>
+<ul>
+<li><strong>Forked Sepolia for integration tests</strong>: Good practice. Confirm that the fork includes the correct Permit2 deployment.</li>
+<li><strong>Local Solana node for E2E</strong>: Adequate for functional testing but does not replicate mainnet conditions (network latency, transaction ordering).</li>
+</ul>
+<p><strong>Missing from the Document</strong>:</p>
+<ul>
+<li>Test coverage target (e.g., 95% line coverage, 90% branch coverage).</li>
+<li>Performance/gas benchmark baseline and regression thresholds.</li>
+<li>Test plan for the Rebalance contract (separate from PSC tests).</li>
+<li>Chaos/failure injection tests for Solana (what if one instruction in the atomic transaction fails?).</li>
+</ul>
+<p><strong>Cross-Cutting Concerns</strong>:</p>
+<ul>
+<li>The Security agent should verify that all signature verification paths have corresponding negative tests.</li>
+<li>The Operational Readiness agent should ensure monitoring can detect issues that tests might miss in production.</li>
+</ul>
+<hr>
+<h3 id="5-risk-analysis-review">5. Risk Analysis Review</h3>
+<p><strong>Verdict</strong>: Approve with Required Changes</p>
+<p><strong>Execution Confidence</strong>: 4/5 The scope is well-bounded, the team is extending an existing contract (not building from scratch), and the external dependencies are known and already in use at Circle. The main execution risks are around the non-upgradeable contract decision, the timeline pressure (code complete March 25), and the coordination required for the contract switching rollout.</p>
+<p><strong>Top Risks (ranked by impact x likelihood)</strong>:</p>
+<ol>
+<li><strong>Attester key compromise leads to fund misdirection</strong> -- <em>Impact</em>: High -- <em>Likelihood</em>: Low (MPC KMS mitigates) -- <em>Mitigation</em>: MPC KMS, attester whitelist, pause capability, BEM monitoring. However, the blast radius is undefined. The maximum amount at risk at any given time depends on: (a) payer approval limits (bounded by individual Permit2 amounts), (b) CPN Incentive Wallet balance (unbounded in current design). -- <em>Recommendation</em>: Quantify the maximum single-transaction exposure and the time-to-detection for anomalous attester behavior. Implement velocity limits on the attester (max transactions per time window).</li>
+</ol>
+<ol>
+<li><strong>Non-upgradeable contract bug requires full migration</strong> -- <em>Impact</em>: High -- <em>Likelihood</em>: Medium (new code, complex invariants, inactive refund code) -- <em>Mitigation</em>: External audit (planned late February), Slither, extensive testing. However, the migration procedure is underspecified. -- <em>Recommendation</em>: Pre-plan the migration procedure. Have the switching infrastructure (dual-contract API support) ready before mainnet deployment, not after a bug is found.</li>
+</ol>
+<ol>
+<li><strong>Solana offchain-only verification introduces silent failures</strong> -- <em>Impact</em>: Medium -- <em>Likelihood</em>: Medium (backend bugs are more common than smart contract bugs) -- <em>Mitigation</em>: E2E tests against local Solana node. However, there is no equivalent of onchain invariant enforcement. -- <em>Recommendation</em>: Implement a post-transaction verification service that independently checks every Solana settlement against expected amounts. This serves as a compensating control for the lack of onchain enforcement.</li>
+</ol>
+<ol>
+<li><strong>External audit timeline pressure</strong> -- <em>Impact</em>: Medium -- <em>Likelihood</em>: Medium -- The audit is planned for late February, and code complete is March 25. If the audit reveals significant findings requiring redesign, the timeline compresses severely. -- <em>Recommendation</em>: Begin audit on the most critical code paths (execute() + fund invariant) first. Have a contingency plan for audit findings that require design changes.</li>
+</ol>
+<ol>
+<li><strong>CPN Incentive Wallet balance management as a new operational dependency</strong> -- <em>Impact</em>: Medium -- <em>Likelihood</em>: Medium (new operational process, human error in replenishment) -- If the incentive wallet runs dry, all incentivized payments fail. This introduces a new availability dependency that did not exist before. -- <em>Recommendation</em>: Automate balance monitoring and replenishment. Define minimum balance as a function of expected daily incentive volume with safety margin.</li>
+</ol>
+<p><strong>Dependency Risks</strong>:</p>
+<ul>
+<li><strong>Uniswap Permit2</strong>: Mature, battle-tested, already used at Circle. Low risk.</li>
+<li><strong>OpenZeppelin contracts</strong>: Mature, widely audited. Low risk.</li>
+<li><strong>Core Custody MPC KMS</strong>: Internal dependency. Risk is in operational availability and key management procedures.</li>
+<li><strong>Circle Wallets API (Solana)</strong>: Published limit of 10 TPS. Current peak is 5 QPS. -- <em>What could go wrong</em>: If Circle Wallets API has downtime or rate limit changes, Solana settlements are blocked. -- <em>Fallback plan</em>: Not documented. Should have a fallback signing mechanism.</li>
+</ul>
+<p><strong>Complexity Hotspots</strong>:</p>
+<ul>
+<li><strong>PSC Refund function</strong>: Most complex code path with multi-party signatures, opaque sources, and balance invariants. Shipping as inactive adds risk of untested code in production.</li>
+<li><strong>Incentive flow with partial fee consumption</strong>: The interaction between <code class="inline">maxFee</code>, actual <code class="inline">fee</code>, and incentive amounts creates a multi-variable constraint space that is the most likely source of bugs.</li>
+<li><strong>Solana transaction construction for refund scenarios</strong>: Variable number of instructions depending on refund type (fee/arbitrage vs incentive) with different wallet involvement.</li>
+</ul>
+<p><strong>One-Way-Door Decisions</strong>:</p>
+<ul>
+<li><strong>Non-upgradeable contract deployment</strong>: Irreversible. Once deployed, bugs require full migration. -- <em>Justification</em>: Industry norm for payment contracts. Switching strategy provides an alternative upgrade path. Justification is sufficient but the switching infrastructure must be pre-built.</li>
+<li><strong>PaymentRecord schema (payer + incentiveProvider only)</strong>: Irreversible. If additional data is needed for future refund validation, a new contract is required. -- <em>Justification</em>: Minimizes gas costs. However, storing a hash of the full intent would add minimal gas for significant future flexibility.</li>
+<li><strong>EIP-712 type hashes</strong>: Once OFIs are signing against these types, changing them requires coordinated migration. -- <em>Justification</em>: Standard practice. Types are well-designed.</li>
+</ul>
+<p><strong>Timeline Concerns</strong>:</p>
+<ul>
+<li><strong>Code complete March 25 with audit starting late February</strong>: This is approximately 4 weeks. If the audit runs 2-3 weeks with 1 week for remediation, there is minimal buffer. -- <em>Impact on delivery</em>: If audit findings require design changes, the March 25 target will slip.</li>
+<li><strong>MVP Production launch TBD, GA Production launch TBD</strong>: No committed production dates reduces schedule pressure but also means no forcing function for operational readiness.</li>
+</ul>
+<p><strong>Scope Creep Risks</strong>:</p>
+<ul>
+<li><strong>PSC Refund activation</strong>: Currently out of MVP scope but included in the contract. Pressure to activate it early could bypass proper testing.</li>
+<li><strong>Additional fee types</strong>: The document notes "additional fee types may be introduced in the future." Each new fee type may require contract changes (non-upgradeable).</li>
+<li><strong>CCTP integration</strong>: Explicitly out of scope but may be a near-term requirement that could necessitate earlier-than-planned contract migration.</li>
+</ul>
+<p><strong>Missing from the Document</strong>:</p>
+<ul>
+<li>Financial exposure quantification: maximum funds at risk at any point in time.</li>
+<li>Audit remediation timeline and contingency plan.</li>
+<li>Rollback/migration procedure for a production contract bug.</li>
+<li>Team capacity assessment: is the team large enough to handle EVM + Solana + audit remediation in parallel?</li>
+</ul>
+<p><strong>Cross-Cutting Concerns</strong>:</p>
+<ul>
+<li>The Operational Readiness agent should assess whether the monitoring infrastructure is sufficient to detect the identified risks in production.</li>
+<li>The Security agent should quantify the attester compromise blast radius.</li>
+</ul>
+<hr>
+<h3 id="6-devil-s-advocate-review">6. Devil's Advocate Review</h3>
+<p><strong>Verdict (Advisory)</strong>: Approve with Required Changes</p>
+<p><strong>The Case Against This Design</strong>:</p>
+<p>This design asks you to trust a single entity -- the CPN attester -- with near-absolute control over fund routing, while simultaneously reducing the onchain safety guarantees that smart contracts are supposed to provide. On EVM, the attester constructs the PaymentIntent (choosing the payeeSettlementAmount), sets the fee (anywhere up to maxFee), determines refund fund sources, and is the only entity that can call execute(). On Solana, there is ZERO onchain enforcement -- the attester constructs the entire transaction and all verification is offchain. The BFI signature is optional, so the one remaining check on the attester's power is voluntarily disabled to reduce friction.</p>
+<p>The design introduces substantial complexity (incentive data, dual-pricing, split refunds, separate rebalance contract, inactive PSC refund code) while acknowledging that the core trust model is "CPN constructs everything and we hope it's correct." The non-upgradeable contract decision means that any bugs in this complex system require a full migration -- deploying a new contract, coordinating OFI migration, running dual contracts. This is presented as safer than upgradeability, but a failed migration under pressure (because a critical bug was found in production) is arguably more dangerous than a governed upgrade with a timelock.</p>
+<p>On Solana, the "no program" approach is presented as elegant simplicity, but it is actually a deliberate choice to push all invariant enforcement offchain, where it is harder to audit, harder to verify independently, and where bugs are more likely. The CPN Incentive Wallet as an intermediary for ALL transactions (even non-incentivized ones) adds a custody-like intermediation layer that has regulatory implications the document does not address.</p>
+<p><strong>The "Do Nothing" Alternative</strong>:</p>
+<ul>
+<li><strong>What happens</strong>: The existing PaymentSettlement contract continues to work for equal-price payments. The Pricing Engine cannot launch with OFI/BFI price differentiation, incentives, or arbitrage capture.</li>
+<li><strong>How bad is it really?</strong>: This is a business-critical feature. Without it, CPN cannot offer competitive pricing via the Pricing Engine. The "do nothing" alternative blocks a key product initiative. This design IS necessary.</li>
+</ul>
+<p><strong>Simpler Alternatives Not Considered</strong>:</p>
+<ol>
+<li><strong>Upgradeable proxy with timelock + multisig governance</strong> -- The document dismisses upgradeability as "risky" but the alternative (contract switching) has its own risks: dual-contract period complexity, OFI coordination, stranded in-flight payments. A UUPS proxy with a 48-72 hour timelock and 3-of-5 multisig would allow fixing critical bugs without full migration, while the timelock prevents governance attacks. This is the pattern used by major DeFi protocols (Aave, Compound, Uniswap governance). -- <em>Tradeoff</em>: Adds upgradeability risk but removes migration risk. Net risk may be lower.</li>
+</ol>
+<ol>
+<li><strong>Lightweight Solana program for invariant enforcement</strong> -- Instead of zero onchain enforcement, deploy a minimal Solana program that: (a) enforces payment nonce uniqueness, (b) validates the balance invariant, (c) records payment hashes. This would bring Solana's trust model much closer to EVM's, at modest development cost. -- <em>Tradeoff</em>: Adds a program to deploy and audit. But closes the significant trust gap.</li>
+</ol>
+<ol>
+<li><strong>Mandatory BFI signature with a simpler signing flow</strong> -- Instead of making BFI signature optional (shifting risk to CPN), invest in a simpler BFI signing experience (e.g., a one-click API endpoint that constructs and signs the typed data). The optional signature is driven by BFI onboarding friction, but the engineering effort to simplify signing may be less than the ongoing risk management cost of optional signatures. -- <em>Tradeoff</em>: More BFI integration work upfront but stronger onchain guarantees.</li>
+</ol>
+<p><strong>Hidden Assumptions (ranked by fragility)</strong>:</p>
+<ol>
+<li><strong>"Attesters will behave honestly because their keys are in MPC KMS"</strong> -- MPC KMS protects against external theft but not against insider threats or software bugs in the attester service. A bug that systematically miscalculates fees or settlement amounts would be within the attester's authority to execute.</li>
+</ol>
+<ol>
+<li><strong>"The fee parameter is fine as attester-controlled because CPN is both the attester and the fee recipient"</strong> -- This assumes CPN's interests are always aligned with the OFI/BFI. In an arbitrage scenario, CPN has a direct financial incentive to maximize fees. The attester literally sets its own payment.</li>
+</ol>
+<ol>
+<li><strong>"Solana privacy leakage (BFI Price visible to OFI) is acceptable"</strong> -- The entire Pricing Engine concept depends on pricing decoupling. If OFIs systematically observe BFI Prices on Solana, the pricing model's effectiveness degrades over time. This is not just a technical issue -- it is a business model risk.</li>
+</ol>
+<ol>
+<li><strong>"PSC Refund can ship inactive safely"</strong> -- Inactive code in a non-upgradeable contract is neither testable in production nor removable if found to be buggy. It occupies contract size, increases audit scope, and could contain latent vulnerabilities that are only discovered after activation.</li>
+</ol>
+<ol>
+<li><strong>"CPN Incentive Wallet pre-funding will be managed correctly"</strong> -- This introduces an operational dependency that did not previously exist. The system's availability for incentivized payments now depends on a manual or semi-automated wallet replenishment process.</li>
+</ol>
+<p><strong>Over-Engineering Concerns</strong>:</p>
+<ul>
+<li><strong>PSC Refund with per-party amount privacy in the initial deployment</strong>: This is a sophisticated signing model for a feature that ships inactive. The per-party privacy (each signer only sees their own refund amount) adds complexity to an already complex refund flow. If the Rebalance contract handles refunds for the initial rollout, was it necessary to design and implement the PSC Refund at all in the first deployment? Consider shipping the PSC Refund in a FUTURE contract version when it is actually needed.</li>
+<li><strong>Separate Rebalance contract</strong>: The rationale is "different trust model for audit clarity." But this creates TWO contracts to deploy, audit, monitor, and maintain. A single contract with a <code class="inline">rebalance()</code> function gated by a different modifier (e.g., <code class="inline">onlyRebalancer</code> vs <code class="inline">onlyAttester</code>) would be simpler.</li>
+</ul>
+<p><strong>What Could Kill This</strong>:</p>
+<ul>
+<li><strong>Critical audit finding requiring redesign</strong>: Probability Medium. If the external audit (starting late February) finds a fundamental issue in the fund invariant or signature binding, the March 25 code complete target is at risk. With non-upgradeable contracts, you get one shot at deployment.</li>
+<li><strong>Regulatory challenge to CPN Incentive Wallet as intermediary on Solana</strong>: Probability Low-Medium. Routing all OFI funds through a CPN-controlled wallet before distributing to BFI could raise questions about custody, money transmission, or flow-of-funds compliance. The document dismisses this ("Not a True FOF Risk") based on Solana atomicity, but regulators may not share this technical interpretation.</li>
+</ul>
+<p><strong>Second-Order Effects</strong>:</p>
+<ul>
+<li><strong>The Rebalance contract sets a precedent for attester-only fund movement</strong>: Once deployed, this general-purpose fund mover controlled by attesters could be used for purposes beyond its original intent. Clear governance is needed.</li>
+<li><strong>Optional BFI signature creates two security tiers</strong>: Some payments will have BFI attestation, others will not. This creates operational complexity in monitoring, dispute resolution, and compliance reporting.</li>
+<li><strong>Contract switching becomes the de facto upgrade mechanism</strong>: Every future change requires a full contract redeployment and OFI migration. This creates increasing resistance to improvements over time ("migration fatigue").</li>
+</ul>
+<p><strong>Questions the Team Should Answer</strong>:</p>
+<ol>
+<li>What is the maximum dollar amount that can be misdirected by a compromised attester in a single transaction? In 24 hours before detection?</li>
+<li>Has Product/Legal explicitly accepted the Solana privacy leakage (BFI Price visible to OFI)? Is this documented in the PDD?</li>
+<li>If the external audit finds a critical issue in the refund function, can you ship the execute() changes on time while deferring refund to a later contract version?</li>
+<li>What is the specific activation mechanism for the inactive PSC Refund? Does it require a contract redeployment?</li>
+<li>Why not deploy a minimal Solana program for nonce uniqueness enforcement, given that this is the most critical invariant?</li>
+<li>What is the regulatory assessment of routing all Solana funds through the CPN Incentive Wallet as an intermediary?</li>
+<li>Has the team modeled the financial impact of the attester setting fee = maxFee on every transaction?</li>
+</ol>
+<hr>
+<h2 id="synthesis">Synthesis</h2>
+<h3 id="blockers">Blockers</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Issue</th>
+<th>Severity</th>
+<th>Agent(s)</th>
+<th>Suggested Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--</td>
+<td>No blocking issues identified</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+</tr>
+</tbody>
+</table></div>
+<p>No individual issue rises to the level of a hard blocker that should halt all progress. However, issues B1 and B2 in Required Changes below are close to blocker status and must be resolved before production mainnet deployment.</p>
+<h3 id="required-changes-ranked">Required Changes (Ranked)</h3>
+<ol>
+<li><strong>Quantify and bound attester blast radius</strong> (Security, Risk Analysis, Devil's Advocate) -- Define the maximum financial exposure from a compromised attester: per-transaction limit, per-time-window limit. Implement velocity monitoring. Document the detection-to-response time SLA. This is the single most important risk in the entire system.</li>
+</ol>
+<ol>
+<li><strong>Resolve Solana BFI Price privacy leakage</strong> (Security, Devil's Advocate) -- Obtain explicit Product/Legal sign-off on the fact that OFIs can observe BFI Price on Solana. Document this as a known limitation in the design doc. If pricing decoupling is a hard requirement, evaluate the cost of a minimal Solana program to encapsulate the BFI transfer.</li>
+</ol>
+<ol>
+<li><strong>Add fuzz testing and invariant testing for fund flow</strong> (Testing Strategy) -- Implement Foundry fuzz tests for the fund sufficiency invariant and refund balance invariant. Add invariant tests that verify no funds are stuck in the contract after any operation sequence. These are high-value, low-effort additions.</li>
+</ol>
+<ol>
+<li><strong>Clarify PSC Refund activation mechanism</strong> (Architecture, Devil's Advocate) -- Document exactly how the inactive PSC Refund will be activated. If activation requires contract redeployment, consider removing it from the initial contract to reduce audit surface and code complexity.</li>
+</ol>
+<ol>
+<li><strong>Add onchain refund amount ceiling</strong> (Security) -- Store sufficient information in PaymentRecord (at minimum, the original total settlement amount or a hash of the original PaymentIntent) to enable the refund function to verify that refund amounts do not exceed the original payment.</li>
+</ol>
+<ol>
+<li><strong>Create incident response runbooks</strong> (Operational Readiness) -- Write runbooks for: (a) attester key compromise, (b) CPN Incentive Wallet depletion, (c) contract pause/unpause, (d) emergency rescue, (e) contract migration. These must exist before mainnet deployment.</li>
+</ol>
+<ol>
+<li><strong>Define contract migration playbook</strong> (Operational Readiness, Risk Analysis) -- Document the specific steps for contract switching: phases, duration, OFI communication plan, success criteria, rollback triggers. Pre-build the dual-contract API support.</li>
+</ol>
+<ol>
+<li><strong>Add Rebalance contract operational bounds</strong> (Architecture, Security) -- Implement upper bounds on single-rebalance transaction amounts and/or source/distribution counts. Document the governance process for approving rebalance operations.</li>
+</ol>
+<ol>
+<li><strong>Add unit tests for Solana transaction construction</strong> (Testing Strategy) -- Implement unit-level tests for the backend Solana transaction construction logic, separate from E2E tests. Test each instruction's structure, accounts, and amounts for each flow variant.</li>
+</ol>
+<ol>
+<li><strong>Implement CPN Incentive Wallet balance monitoring and alerting</strong> (Operational Readiness) -- Define minimum balance thresholds for the CPN Incentive Wallet on Solana. Add BEM alerts for balance drops below threshold. Document the replenishment procedure.</li>
+</ol>
+<h3 id="open-questions">Open Questions</h3>
+<ol>
+<li>Has Product/Legal explicitly reviewed and accepted the Solana privacy asymmetry where OFI can see BFI Price?</li>
+<li>What is the specific activation mechanism for the inactive PSC Refund function? Feature flag? Contract redeployment?</li>
+<li>What is the regulatory assessment of routing all Solana funds through the CPN Incentive Wallet?</li>
+<li>Is there a fallback signing mechanism if the Circle Wallets API is unavailable for Solana?</li>
+<li>What is the expected audit duration, and what is the contingency plan if audit findings require design changes after March 25?</li>
+<li>Does the compliance engineering team need to review this design separately, as the author noted uncertainty about?</li>
+<li>What Permit2 nonce management strategy is used? Sequential or unordered nonces? How are consumed nonces tracked offchain?</li>
+<li>What is the maximum single-payment amount the system will support? Is there an implicit cap from Permit2 or USDC?</li>
+</ol>
+<h3 id="strengths">Strengths</h3>
+<ol>
+<li><strong>Excellent Permit2/EIP-712 witness data design</strong>: The cryptographic binding between what each party signs and what the contract enforces is well-constructed, with appropriate field separation between payer, payee, and incentive provider signatures.</li>
+</ol>
+<ol>
+<li><strong>Clean fund sufficiency invariant</strong>: The <code class="inline">payerAuthorizedAmount + incentive == payeeSettlementAmount + maxFee</code> invariant is simple, verifiable, and enforced onchain. This is the right level of abstraction for the core correctness property.</li>
+</ol>
+<ol>
+<li><strong>Honest tradeoffs documentation</strong>: The Priorities and Tradeoffs section explicitly names the residual risks of each design decision, including the attester trust concentration and Solana offchain verification. This level of honesty in a design doc is commendable.</li>
+</ol>
+<ol>
+<li><strong>Pragmatic Solana architecture</strong>: Leveraging composable native instructions rather than deploying a custom program reduces development, audit, and maintenance costs. The tradeoff is well-understood.</li>
+</ol>
+<ol>
+<li><strong>Defense-in-depth for EVM</strong>: The combination of ReentrancyGuard, Pausable, Rescuable, Ownable2Step, attester whitelist, and nonce management provides layered protection.</li>
+</ol>
+<h3 id="cross-cutting-concerns">Cross-Cutting Concerns</h3>
+<ol>
+<li><strong>Attester trust concentration spans all agent domains</strong>: Architecture (single point of control), Security (compromise blast radius), Operational Readiness (key management and rotation), Testing (adversarial attester scenarios), Risk (financial exposure quantification). This is the single most important cross-cutting concern.</li>
+</ol>
+<ol>
+<li><strong>EVM-Solana trust model divergence</strong>: The fundamentally different verification models (onchain vs offchain) create two different risk profiles that must be managed, monitored, and tested differently. Operational procedures, monitoring, and testing strategies should explicitly account for this asymmetry.</li>
+</ol>
+<ol>
+<li><strong>Non-upgradeable contract + inactive code</strong>: The intersection of immutability and shipping unused code creates a unique maintenance challenge that touches architecture (activation mechanism), security (latent vulnerabilities), testing (how to verify inactive code), and operations (migration if the inactive code is buggy).</li>
+</ol>
+<ol>
+<li><strong>CPN Incentive Wallet as a new operational dependency</strong>: This new pre-funded wallet requirement spans architecture (fund flow design), operations (balance monitoring and replenishment), risk (availability impact), and security (key management for the wallet).</li>
+</ol>
+<h3 id="suggested-follow-ups">Suggested Follow-Ups</h3>
+<ol>
+<li><strong>External security audit</strong> (already planned for late February) -- Ensure audit scope covers: execute() with all flow variants, PSC Refund (even if inactive), Rebalance contract, and all EIP-712 type hash constructions.</li>
+</ol>
+<ol>
+<li><strong>Post-launch monitoring review</strong> (2 weeks after mainnet deployment) -- Review BEM alert effectiveness, settlement success rates, fee distribution patterns, and incentive utilization. Adjust monitoring thresholds based on observed patterns.</li>
+</ol>
+<ol>
+<li><strong>Formal verification of fund invariant</strong> (medium-term) -- Use Certora or Halmos to formally verify that the fund sufficiency invariant holds under all possible input combinations and that no funds can be stuck in the contract.</li>
+</ol>
+<ol>
+<li><strong>Penetration test / red team exercise</strong> (pre-mainnet) -- Simulate attester compromise scenario. Verify that monitoring detects anomalous behavior within the stated SLA and that the pause mechanism works as expected.</li>
+</ol>
+<ol>
+<li><strong>Solana program evaluation</strong> (medium-term) -- After MVP launch, evaluate the cost-benefit of deploying a lightweight Solana program for nonce uniqueness and balance invariant enforcement to close the trust gap with EVM.</li>
+</ol>
+<ol>
+<li><strong>Regulatory review of Solana fund routing</strong> -- Obtain formal legal/compliance assessment of routing all OFI funds through the CPN Incentive Wallet on Solana, particularly regarding custody and money transmission regulations.</li>
+</ol>
+<h3 id="mvp-scope-validation">MVP Scope Validation</h3>
+<p>The proposed MVP scope is <strong>appropriate</strong> with one caveat:</p>
+<ul>
+<li><strong>In scope (correct)</strong>: execute() with incentive/arbitrage support, Rebalance contract, Solana forward + refund flow, EVM forward flow.</li>
+<li><strong>Deferred (correct)</strong>: PSC Refund activation, CCTP integration, escrow, recurring payments.</li>
+<li><strong>Caveat</strong>: The inclusion of inactive PSC Refund code in the MVP contract increases audit scope, code complexity, and risk without providing immediate value. The team should seriously consider removing it from the initial deployment and shipping it in a subsequent contract version.</li>
+</ul>
+<h3 id="key-metrics-to-track">Key Metrics to Track</h3>
+<p><strong>Pre-Launch</strong>:</p>
+<ul>
+<li>External audit findings count and severity distribution</li>
+<li>Test coverage percentage (line and branch)</li>
+<li>Fuzz test iteration count and failure rate</li>
+<li>Gas consumption per flow variant (standard, incentive, arbitrage, refund)</li>
+</ul>
+<p><strong>Post-Launch</strong>:</p>
+<ul>
+<li>Settlement success rate (should be >99.9%)</li>
+<li>Average fee vs. maxFee ratio (fee/maxFee trending toward 1.0 indicates potential issue)</li>
+<li>Incentive utilization rate (% of payments using incentives)</li>
+<li>CPN Incentive Wallet balance on Solana (with trend line and minimum threshold alert)</li>
+<li>Time-to-settlement (block submission to onchain confirmation)</li>
+<li>Refund execution count and average refund processing time</li>
+<li>Attester transaction velocity (transactions per minute per attester)</li>
+<li>Failed settlement rate with error code distribution</li>
+<li>Balance anomaly alerts on all role addresses</li>
+</ul>
+<h3 id="rollout-recommendations">Rollout Recommendations</h3>
+<p><strong>Phase 1: Testnet Deployment (Weeks 1-2 post-code-complete)</strong></p>
+<ul>
+<li>Deploy to testnet (both prod-testnet and stg-testnet environments)</li>
+<li>Run full integration test suite against testnet</li>
+<li>Validate monitoring and alerting on testnet events</li>
+<li>Conduct internal red team exercise against testnet deployment</li>
+</ul>
+<p><strong>Phase 2: Mainnet Staging (Weeks 3-4)</strong></p>
+<ul>
+<li>Deploy to mainnet with staging configuration</li>
+<li>Run synthetic transactions through the full pipeline</li>
+<li>Validate gas costs match projections</li>
+<li>Verify BEM monitoring captures all expected events</li>
+<li>Conduct operational readiness review (runbooks, on-call, escalation paths)</li>
+</ul>
+<p><strong>Phase 3: Limited Mainnet Production (Weeks 5-6)</strong></p>
+<ul>
+<li>Enable for a small subset of OFIs (ideally internal or trusted partners)</li>
+<li>Run in parallel with existing contract (new payments go to new contract)</li>
+<li>Monitor for 2 weeks with heightened alerting thresholds</li>
+<li>Validate settlement accuracy against offchain records</li>
+</ul>
+<p><strong>Phase 4: General Availability (Weeks 7+)</strong></p>
+<ul>
+<li>Open to all OFIs</li>
+<li>Begin deprecation timeline for old contract</li>
+<li>Communicate migration timeline to remaining OFIs on old contract</li>
+<li>Maintain dual-contract support for minimum 4 weeks</li>
+<li>Pause and deprecate old contract only after all active OFIs have migrated</li>
+</ul>
+<p><strong>Rollout Gate Criteria (must pass before each phase transition)</strong>:</p>
+<ul>
+<li>[ ] External audit complete with no unresolved Critical/High findings</li>
+<li>[ ] All Required Changes from this review addressed</li>
+<li>[ ] Incident response runbooks published and reviewed by on-call team</li>
+<li>[ ] CPN Incentive Wallet funded with minimum 2x expected weekly incentive volume</li>
+<li>[ ] BEM monitoring operational with alerts tested via synthetic events</li>
+<li>[ ] Contract migration playbook documented and dry-run tested on testnet</li>
+</ul>
+<h3 id="overall-verdict-approve-with-required-changes">Overall Verdict: Approve with Required Changes</h3>
+<p>The design is architecturally sound, solves the stated problem correctly, and demonstrates mature engineering thinking in its use of Permit2/EIP-712, atomic settlement, and defense-in-depth patterns. The team has been transparent about tradeoffs and residual risks.</p>
+<p>However, the design must address the following before mainnet production deployment:</p>
+<ol>
+<li>Attester blast radius must be quantified and bounded with velocity monitoring</li>
+<li>Solana BFI Price privacy leakage must have explicit Product/Legal sign-off</li>
+<li>Fuzz and invariant testing must be added for fund flow correctness</li>
+<li>Incident response runbooks must be created for the top failure scenarios</li>
+<li>The PSC Refund activation mechanism must be clarified (or the code removed from initial deployment)</li>
+</ol>
+<p>None of these require fundamental redesign. They are addressable within the current architecture and timeline.</p>
+<hr>
+<p><em>Review generated on 2026-02-20 by multi-perspective engineering design review committee.</em> <em>Document reviewed: "CPN Onchain Settlement with Pricing Engine Enablement" by Gary Chen, Giles Chang, Vincent Huang.</em></p>
+
+    </div>
+</section>
+
+
+        <footer style="text-align:center;color:#95a5a6;font-size:13px;margin-top:40px;">
+            Generated 2026-02-20 &bull; Security Audit &bull; Architecture Review &bull; Engineering Design Review
+        </footer>
+    </div>
+</body>
+</html>
